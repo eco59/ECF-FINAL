@@ -1,0 +1,17 @@
+{
+    "name": "33618/ecf_a_rendre",
+    "autoload": {
+        "psr-4": {
+            "33618\\EcfARendre\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "coyen",
+            "email": "e.coyen@outlook.fr"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.29"
+    }
+}

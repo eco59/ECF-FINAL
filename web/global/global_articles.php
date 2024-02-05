@@ -59,7 +59,7 @@
                     ?>
                     <!--<div class="articles">-->
                         <h1><?= $Articles['titre'];?></h1>
-                        <p class="contenu"><?= $Articles['contenu'];?></p>
+                        <!--<p class="contenu"><?= $Articles['contenu'];?></p>-->
                         <div class="petite_infos">
                             <p><?= $Articles['auteur'];?></p>
                             <P><?= $Articles['date_mise_a_jour'];?></p>
