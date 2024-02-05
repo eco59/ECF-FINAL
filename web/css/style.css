@@ -401,6 +401,8 @@ label
     TEXT-ALIGN: justify;
     line-height: 13px;
     letter-spacing: 0.5px;
+    line-height: 100%;
+    padding-right: 200px;
 }
 .articles_en_details img
 {
