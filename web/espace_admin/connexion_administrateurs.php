@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    // Générer et stocker le jeton CSRF
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -36,10 +43,21 @@
     </section>
     <section class="se_connecter_admin">
         <div class="login_admin">
-            <form method="POST" action="login_administrateurs.php">
+        <form method="POST" action="login_administrateurs.php">
                 <input class="admin" type="email" placeholder="Entrer votre adresse mail" id="email" name="email" required>
                 <input class="mdp_admin" type="password" placeholder="Entrer le mot de passe" id="password" name="password" required>
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                 <input class="button_admin" type="submit" value="Se connecter" name="ok">
+                <?php
+                    if(!empty($_POST['csrf_token'])) {
+                        if(hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+                            // Process form data here
+                            $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+                            $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+                            // use $email and $password in your db queries
+                        }
+                    }
+                ?>
             </form>
         </div>
     </section>

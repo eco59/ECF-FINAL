@@ -3,42 +3,44 @@
     include '../connexion_bdd/connexion_bdd.php';
     // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
-    if(isset($_GET['id']) AND !empty($_GET['id'])){
-        $getid = $_GET['id'];
-        // On prepare la bdd pour vérifier si l'article est bien cree
-        $recupArticles = $bdd->prepare('SELECT * FROM articles WHERE id = ?');
-        $recupArticles->execute(array($getid));
-        if($recupArticles->rowCount() > 0){
-            $Articles_infos = $recupArticles->fetch();
-            // On recupere les infos 
-            $titre = $Articles_infos['titre'];
-            $contenu = $Articles_infos['contenu'];
-            $auteur = $Articles_infos['auteur'];
-            $date_mise_a_jour = $Articles_infos['date_mise_a_jour'];
-            //enlever les balise br qui s'affiche automatiquement
-            str_replace('<br />', '', $Articles_infos['contenu']);
-            // si on appuye sur le bouton valider on change les informations
-            if(isset($_POST['valider'])){
-                $titre_saisie = htmlspecialchars($_POST['titre']);
-                $contenu_saisie = nl2br(htmlspecialchars($_POST['contenu']));
-                $auteur_saisie = nl2br(htmlspecialchars($_POST['auteur']));
-                $date_mise_a_jour = nl2br(htmlspecialchars($_POST['date_mise_a_jour']));
+        if(isset($_GET['id']) AND !empty($_GET['id'])){
+            $getid = $_GET['id'];
+            // On prepare la bdd pour vérifier si l'article est bien cree
+            $recupArticles = $bdd->prepare('SELECT * FROM articles WHERE id = ?');
+            $recupArticles->execute(array($getid));
+            if($recupArticles->rowCount() > 0){
+                $Articles_infos = $recupArticles->fetch();
+                // On recupere les infos 
+                $titre = $Articles_infos['titre'];
+                $contenu = $Articles_infos['contenu'];
+                $auteur = $Articles_infos['auteur'];
+                $date_mise_a_jour = $Articles_infos['date_mise_a_jour'];
+                //enlever les balise br qui s'affiche automatiquement
+                str_replace('<br />', '', $Articles_infos['contenu']);
+                // si on appuye sur le bouton valider on change les informations
+                if(isset($_POST['valider'])){
+                    $titre_saisie = htmlspecialchars($_POST['titre']);
+                    $contenu_saisie = nl2br(htmlspecialchars($_POST['contenu']));
+                    $auteur_saisie = nl2br(htmlspecialchars($_POST['auteur']));
+                    $date_mise_a_jour = nl2br(htmlspecialchars($_POST['date_mise_a_jour']));
 
-                // On update les infos
-                $updateArticles = $bdd->prepare('UPDATE articles SET 
-                titre = ?, contenu = ?, auteur = ?, date_mise_a_jour = ? 
-                WHERE id = ?');
-                $updateArticles->execute(array($titre_saisie, $contenu_saisie, $auteur_saisie ,$date_mise_a_jour, $getid));
-                // On redirige vers la page...
-                header('Location: ../global/global_articles.php');
+                    // On update les infos
+                    $updateArticles = $bdd->prepare('UPDATE articles SET 
+                    titre = ?, contenu = ?, auteur = ?, date_mise_a_jour = ? 
+                    WHERE id = ?');
+                    $updateArticles->execute(array($titre_saisie, $contenu_saisie, $auteur_saisie ,$date_mise_a_jour, $getid));
+                    // On redirige vers la page...
+                    header('Location: ../global/global_articles.php');
+                    }
+                }
+                else{
+                    echo " Aucun article trouvé";
+                }
+
             }
-        }else{
-            echo " Aucun article trouvé";
-        }
-
-    }else{
-        echo " Aucun identifiant trouvé";
-    }
+            else{
+                echo " Aucun identifiant trouvé";
+            }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -73,7 +75,7 @@
         </div>
     </section>
     <section class="condition">
-        <p>modifier un jeux vidéo
+        <p>modifier un article
         </p>
     </section>
     <article class="publier_jeux">

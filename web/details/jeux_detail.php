@@ -1,33 +1,42 @@
 <?php
-    //connexion bdd
     include '../connexion_bdd/connexion_bdd.php';
-    // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
-    // Récupérer l'ID du jeu vidéo depuis l'URL
-    $id_jeu = $_GET['id'];
 
-    // Récupérer les informations du jeu vidéo spécifique
-    $recupJeuxVideos = $bdd->prepare('SELECT * FROM jeux_videos WHERE id = ?');
-    $recupJeuxVideos->execute([$id_jeu]);
-    $jeux_videos = $recupJeuxVideos->fetch();
-
-    // Vérifier si le jeu vidéo existe
-    if(!$jeux_videos) {
-        // Rediriger ou afficher un message d'erreur
+    if(!isset($_GET['id']) || !is_numeric($_GET['id']) || $_GET['id'] <= 0) {
         header('Location: ../global/global_jeux.php');
         exit();
     }
 
-    // Récupérer les images associées au jeu vidéo
+    $id_jeu = intval($_GET['id']);
+
+    $recupJeuxVideos = $bdd->prepare('SELECT * FROM jeux_videos WHERE id = ?');
+    $recupJeuxVideos->bindParam(1, $id_jeu, PDO::PARAM_INT);
+    $recupJeuxVideos->execute();
+
+    $jeux_videos = $recupJeuxVideos->fetch();
+
+    if(!$jeux_videos) {
+        header('Location: ../global/global_jeux.php');
+        exit();
+    }
+
     $recupImages = $bdd->prepare('SELECT * FROM images_jeux WHERE id_jeux_videos = ?');
-    $recupImages->execute([$id_jeu]);
+    $recupImages->bindParam(1, $id_jeu, PDO::PARAM_INT);
+    $recupImages->execute();
+
     $images = $recupImages->fetchAll();
 
-    // Vérifier si le jeu est dans les favoris de l'utilisateur
-    $recupFavoris = $bdd->prepare('SELECT * FROM favoris WHERE id_jeux_videos = ? AND id = ?');
-    $recupFavoris->execute([$id_jeu, $_SESSION['id']]); // Assurez-vous d'ajuster la colonne id_utilisateur en fonction de votre structure de base de données
-    $isInFavorites = $recupFavoris->fetch();
-    //$isInFavorites = in_array($id_jeu, $_SESSION['favoris']);
+    // Vérifiez si l'utilisateur est connecté avant de récupérer le favori
+    if(isset($_SESSION['id'])) {
+        $recupFavoris = $bdd->prepare('SELECT * FROM favoris WHERE id_jeux_videos = ? AND id = ?');
+        $recupFavoris->bindParam(1, $id_jeu, PDO::PARAM_INT);
+        $recupFavoris->bindParam(2, $_SESSION['id'], PDO::PARAM_INT);
+        $recupFavoris->execute();
+
+        $isInFavorites = $recupFavoris->fetch();
+    } else {
+        $isInFavorites = false;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +90,7 @@
             <p>Type/Genre :  <?= $jeux_videos['type_de_jeu'];?></p>
             <p class="note">Note: <?= $jeux_videos['note']; ?>/10</p> <!-- Ajout de cette ligne pour afficher la note -->
         </div>
-            <p class="contenu"><?= $jeux_videos['description']; ?></p>
+            <p class="contenu"><?= htmlspecialchars_decode(strip_tags($jeux_videos['description'])); ?></p>
 
         <div class="image-gallery">
             <?php foreach ($images as $image): ?>

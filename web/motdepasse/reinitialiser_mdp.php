@@ -3,12 +3,19 @@
     include '../connexion_bdd/connexion_bdd.php';
 
     if(isset($_POST['ok'])){
-        $mdp_saisie = $_POST['pass'];
-        $email_saisie = $_POST['email'];
-        //modifier dans la base de donnée
-        $changermdp = $bdd->prepare('UPDATE visiteurs SET mdp = ?, email = ?');
-        $changermdp->execute(array($mdp_saisie, $email_saisie));
-        echo "modification réussie";
+        $mdp_saisie = htmlspecialchars($_POST['pass']); // Sécurisation du mot de passe saisi
+        $pseudo = htmlspecialchars($_POST['pseudo']); // Sécurisation du pseudo saisi
+        $email_saisie = htmlspecialchars($_POST['email']); // Sécurisation de l'e-mail saisi
+        
+        //modification dans la base de données
+        $changermdp = $bdd->prepare('UPDATE visiteurs SET mdp = ? WHERE email = ?, pseudo = ?'); // Modification de la requête pour mettre à jour le mot de passe d'un utilisateur spécifique
+        $changermdp->execute(array($mdp_saisie, $email_saisie, $pseudo));
+        
+        if ($changermdp) {
+            header("Location: ../connexion_visiteurs/connexion.php");
+        } else {
+            echo "Erreur lors de la modification";
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -58,7 +65,8 @@
     </section>
     <article class="article_oublie_mdp">
         <form action="" method="POST">
-            <input class="email_mdp_oublie" type="text" id="email" name="email" placeholder="Entrer votre adresse mail"  required>
+            <input class="email_mdp_oublie" type="email" id="email" name="email" placeholder="Entrer votre adresse mail"  required>
+            <input class="email_mdp_oublie mdp_new" type="text" placeholder="Entrer votre pseudo" name="pseudo" required>
             <input class="email_mdp_oublie mdp_new" type="password" id="pass" name="pass" placeholder="Nouveau mot de passe"  required>
             <input class="button_oublie" type="submit"value="Modifier" name="ok">
         </form>

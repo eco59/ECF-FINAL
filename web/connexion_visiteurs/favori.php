@@ -1,33 +1,37 @@
 <?php
-    //connexion bdd
+    // Inclusion du fichier de connexion à la base de données
     include '../connexion_bdd/connexion_bdd.php';
     
-    // Démarrer la session sur chaque page où vous en avez besoin
+    // Démarrage de la session sur chaque page où vous en avez besoin
     session_start();
+
     // Assurez-vous que la variable de session contenant l'identifiant de l'utilisateur est définie
-    if (isset($_SESSION['id'])) {
-        $utilisateur = $_SESSION['id'];
+    if (!isset($_SESSION['id'])) {
+        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+        header("Location: ../connexion_visiteurs/connexion.php");
+        exit(); // Assurez-vous de terminer le script après la redirection
+    }
 
-        // Récupérer les jeux favoris depuis la base de données
-        $sql = "SELECT id_jeux_videos FROM favoris WHERE id_visiteurs = :utilisateur";
-        $stmt = $bdd->prepare($sql);
-        $stmt->bindParam(':utilisateur', $utilisateur, PDO::PARAM_INT);
+    // Récupérer l'identifiant de l'utilisateur à partir de la session
+    $utilisateur = $_SESSION['id'];
 
-        // Exécuter la requête
-        if ($stmt->execute()) {
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Préparation de la requête SQL pour récupérer les jeux favoris de l'utilisateur
+    $sql = "SELECT id_jeux_videos FROM favoris WHERE id_visiteurs = :utilisateur";
+    $stmt = $bdd->prepare($sql);
+    $stmt->bindParam(':utilisateur', $utilisateur, PDO::PARAM_INT);
 
-            
-            if ($result === false) {
-
-                // Gestion des erreurs pour le cas où fetchAll échoue
-                echo 'Erreur lors de la récupération des jeux favoris.';
-            }
-        } else {
-
-            // Gestion des erreurs pour le cas où l'exécution de la requête échoue
-            echo 'Erreur lors de l\'exécution de la requête.';
+    // Exécution de la requête préparée
+    if ($stmt->execute()) {
+        // Récupération des résultats
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if ($result === false) {
+            // Gestion des erreurs pour le cas où fetchAll échoue
+            echo 'Erreur lors de la récupération des jeux favoris.';
         }
+    } else {
+        // Gestion des erreurs pour le cas où l'exécution de la requête échoue
+        echo 'Erreur lors de l\'exécution de la requête.';
     }
 ?>
 
@@ -77,24 +81,24 @@
         </p>
     </section>
     <section class="ul_favori derniere_section">
-        <?php
+    <?php
         if (isset($result)) {
             if (count($result) > 0) {
                 echo "<ul>";
                 foreach ($result as $row) {
                     $idJeu = $row['id_jeux_videos'];
 
-                    // Récupérer les détails du jeu à partir de la base de données et afficher-les
-                    $recupTitreJeu = $bdd->prepare('SELECT titre FROM jeux_videos WHERE id = ?');
-                    if ($recupTitreJeu->execute([$idJeu])) {
-                        $titreJeu = $recupTitreJeu->fetchColumn();
-                        
-                        if ($titreJeu !== false) {
-                            echo "<li class='li_favori'>";
-                            echo "<a href='../details/jeux_detail.php?id=$idJeu'>" . $titreJeu . "</a>";
-                            echo "<button class='retirer_favori button_deconnexion' data-id='$idJeu'>Retirer des favoris</button>";
-                            echo "</li>";
-                        }
+                    // Préparation de la requête SQL pour récupérer le titre du jeu
+                    $recupTitreJeu = $bdd->prepare('SELECT titre FROM jeux_videos WHERE id = :idJeu');
+                    $recupTitreJeu->bindParam(':idJeu', $idJeu, PDO::PARAM_INT);
+                    
+                    // Exécution de la requête préparée
+                    if ($recupTitreJeu->execute() && $titreJeu = $recupTitreJeu->fetchColumn()) {
+                        // Affichage du jeu et du bouton pour retirer des favoris
+                        echo "<li class='li_favori'>";
+                        echo "<a href='../details/jeux_detail.php?id=$idJeu'>" . htmlspecialchars($titreJeu) . "</a>";
+                        echo "<button class='retirer_favori button_deconnexion' data-id='$idJeu'>Retirer des favoris</button>";
+                        echo "</li>";
                     }
                 }
                 echo "</ul>";

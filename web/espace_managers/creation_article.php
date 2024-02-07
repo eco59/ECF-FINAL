@@ -3,37 +3,46 @@
     include '../connexion_bdd/connexion_bdd.php';
     // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
-    if(isset($_POST['envoi'])){
-            // Traitement de l'image
-            $dossier_images = "../images/";
-            $nom_fichier = basename($_FILES["image"]["name"]);
-            $chemin_fichier = $dossier_images . $nom_fichier;
-
-            // Déplacer l'image vers le dossier spécifié
-            move_uploaded_file($_FILES["image"]["tmp_name"], $chemin_fichier);
-
-        if(!empty($_POST['titre']) AND !empty($_POST['contenu'])){
-            $titre = htmlspecialchars($_POST['titre']);
-            $contenu = nl2br(htmlspecialchars($_POST['contenu']));
-            $auteur = nl2br(htmlspecialchars($_POST['auteur']));
-            $date_mise_a_jour = ($_POST['date_mise_a_jour']);
-
-            
-            // On insere dans la BDD les infos 
-            $insererArticles = $bdd->prepare('INSERT INTO articles
-            (titre, contenu, auteur, date_mise_a_jour, chemin_image)
-            VALUES(?, ?, ?, ?, ?)');
-            $insererArticles->execute(array($titre, $contenu, $auteur, $date_mise_a_jour, $nom_fichier));
-            echo "<div class='condition'>Creation réussie !</div>";
-        }else{
-            echo"veuillez completer tous les champs...";
+    // Vérifier si le formulaire a été soumis
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Vérifier le jeton CSRF
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die('Invalid CSRF token');
         }
-        // Get the ID of the last inserted article
-        $lastArticleID = $bdd->lastInsertId();
-        // Return the ID as JSON
-            echo json_encode(array("status" => "success", "articleID" => $lastArticleID));
-        } else {
-            echo json_encode(array("status" => "error", "message" => "Veuillez compléter tous les champs..."));
+        if(isset($_POST['envoi'])){
+                // Traitement de l'image
+                $dossier_images = "../images/";
+                $nom_fichier = basename($_FILES["image"]["name"]);
+                $chemin_fichier = $dossier_images . $nom_fichier;
+
+                // Déplacer l'image vers le dossier spécifié
+                move_uploaded_file($_FILES["image"]["tmp_name"], $chemin_fichier);
+
+            if(!empty($_POST['titre']) AND !empty($_POST['contenu'])){
+                $titre = htmlspecialchars($_POST['titre']);
+                $contenu = nl2br(htmlspecialchars($_POST['contenu']));
+                $auteur = nl2br(htmlspecialchars($_POST['auteur']));
+                $date_mise_a_jour = nl2br(htmlspecialchars($_POST['date_mise_a_jour']));
+
+                //enlever les balise br qui s'affiche automatiquement
+                str_replace('<br />', '', $Articles_infos['contenu']);
+                
+                // On insere dans la BDD les infos 
+                $insererArticles = $bdd->prepare('INSERT INTO articles
+                (titre, contenu, auteur, date_mise_a_jour, chemin_image)
+                VALUES(?, ?, ?, ?, ?)');
+                $insererArticles->execute(array($titre, $contenu, $auteur, $date_mise_a_jour, $nom_fichier));
+                echo "<div class='condition'>Creation réussie !</div>";
+            }else{
+                echo"veuillez completer tous les champs...";
+            }
+            // Get the ID of the last inserted article
+            $lastArticleID = $bdd->lastInsertId();
+            // Return the ID as JSON
+                echo json_encode(array("status" => "success", "articleID" => $lastArticleID));
+            } else {
+                echo json_encode(array("status" => "error", "message" => "Veuillez compléter tous les champs..."));
+            }
         }
     
 ?>
@@ -77,6 +86,7 @@
             <form class="publier_jeux_form" action="" method="POST" enctype="multipart/form-data">
                 <input type="text" placeholder="Titre" name="titre" required>
                 <textarea name="contenu" required></textarea>
+                <input type="hidden" value="<?php echo $_SESSION['csrf_token']; ?>" name="csrf_token" />
                 <input type="text" placeholder="nom auteur" name="auteur" required>
                 <input type="date" placeholder="date_mise_a_jour" name="date_mise_a_jour" value="<?php echo date('Y-m-d'); ?>"  >
                 <input class="files" type="file" name="image" accept="image/*">

@@ -3,63 +3,76 @@
     include '../connexion_bdd/connexion_bdd.php';
     // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
-    if(isset($_POST['envoi'])){
-        if(!empty($_POST['titre']) AND !empty($_POST['description'])){
-            $titre = htmlspecialchars($_POST['titre']);
-            $description = nl2br(htmlspecialchars($_POST['description']));
-            
-            // Vérification de la date de création
-            $date_de_creation_saisie = strtotime($_POST['date_de_creation']);
-            $date_actuelle = strtotime(date('Y-m-d'));
-            // Define $date_de_creation here
-            $date_de_creation = $_POST['date_de_creation'];
 
-            // Traitement des images
-            $dossier_images = "../images/";
+    // Vérifier si le formulaire a été soumis
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Vérifier le jeton CSRF
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die('Invalid CSRF token');
+        }
 
-            $image_paths = array();
-            foreach ($_FILES["image"]["tmp_name"] as $key => $tmp_name) {
-                $nom_fichier = basename($_FILES["image"]["name"][$key]);
-                $chemin_fichier = $dossier_images . $nom_fichier;
-                move_uploaded_file($tmp_name, $chemin_fichier);
-                $image_paths[] = $nom_fichier;
-            }
+        // Vérifier si le formulaire a été soumis avec l'envoi
+        if (isset($_POST['envoi'])) {
+            if (!empty($_POST['titre']) && !empty($_POST['description'])) {
+                // Traitement des données
+                $titre = htmlspecialchars($_POST['titre']);
+                $description = nl2br(htmlspecialchars($_POST['description']));
 
+                // Vérification de la date de création
+                $date_de_creation_saisie = strtotime($_POST['date_de_creation']);
+                $date_actuelle = strtotime(date('Y-m-d'));
+                $date_de_creation = $_POST['date_de_creation'];
 
-            if($date_de_creation_saisie < $date_actuelle) {
-                echo "La date de création ne peut pas être antérieure à aujourd'hui.";
-            } else {
-                $nombre_de_joueur = nl2br(htmlspecialchars($_POST['nombre_de_joueur']));
-                $Studio = nl2br(htmlspecialchars($_POST['Studio']));
-                $support = nl2br(htmlspecialchars($_POST['support']));
-                $moteur_jeux = nl2br(htmlspecialchars($_POST['moteur_jeux']));
-                $type_de_jeu = nl2br(htmlspecialchars($_POST['type_de_jeu']));
-                $date_fin = nl2br(htmlspecialchars($_POST['date_fin']));
-                $budget = nl2br(htmlspecialchars($_POST['budget']));
-                $statut_du_jeu = nl2br(htmlspecialchars($_POST['statut_du_jeu']));
-                $date_mise_a_jour = nl2br(htmlspecialchars($_POST['date_mise_a_jour']));
-                $commentaire = nl2br(htmlspecialchars($_POST['commentaire']));
-                $nom_prenom = nl2br(htmlspecialchars($_POST['nom_prenom']));
-                
-                // Insérer les données dans la table jeux_videos
-                $insererJeuxVideos = $bdd->prepare('INSERT INTO jeux_videos
-                (titre, description, date_de_creation, nombre_de_joueur, Studio, support, moteur_jeux, type_de_jeu, date_fin, budget, statut_du_jeu, date_mise_a_jour, commentaire, nom_prenom)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-                $insererJeuxVideos->execute(array(
-                $titre, $description, $date_de_creation, $nombre_de_joueur,
-                $Studio,$support, $moteur_jeux, $type_de_jeu, $date_fin, $budget, $statut_du_jeu,
-                $date_mise_a_jour, $commentaire, $nom_prenom
-                ));
-                // Insérer les données dans la table images_jeux
-                $id_jeux_videos = $bdd->lastInsertId(); // Get the last inserted ID from jeux_videos
-                foreach ($image_paths as $image_path) {
-                    $insererImages = $bdd->prepare('INSERT INTO images_jeux (id_jeux_videos, chemin_image) VALUES (?, ?)');
-                    $insererImages->execute(array($id_jeux_videos, $image_path));
+                // Traitement des images
+                $dossier_images = "../images/";
+                $image_paths = array();
+
+                foreach ($_FILES["image"]["tmp_name"] as $key => $tmp_name) {
+                    $nom_fichier = basename($_FILES["image"]["name"][$key]);
+                    $chemin_fichier = $dossier_images . $nom_fichier;
+                    move_uploaded_file($tmp_name, $chemin_fichier);
+                    $image_paths[] = $nom_fichier;
                 }
-                echo "<div class='condition'>Création réussie !</div>";
+
+                if ($date_de_creation_saisie < $date_actuelle) {
+                    echo "La date de création ne peut pas être antérieure à aujourd'hui.";
+                } else {
+                    // Récupération des autres données du formulaire
+                    $nombre_de_joueur = nl2br(htmlspecialchars($_POST['nombre_de_joueur']));
+                    $Studio = nl2br(htmlspecialchars($_POST['Studio']));
+                    $support = nl2br(htmlspecialchars($_POST['support']));
+                    $moteur_jeux = nl2br(htmlspecialchars($_POST['moteur_jeux']));
+                    $type_de_jeu = nl2br(htmlspecialchars($_POST['type_de_jeu']));
+                    $date_fin = nl2br(htmlspecialchars($_POST['date_fin']));
+                    $budget = nl2br(htmlspecialchars($_POST['budget']));
+                    $statut_du_jeu = nl2br(htmlspecialchars($_POST['statut_du_jeu']));
+                    $date_mise_a_jour = nl2br(htmlspecialchars($_POST['date_mise_a_jour']));
+                    $commentaire = nl2br(htmlspecialchars($_POST['commentaire']));
+                    $nom_prenom = nl2br(htmlspecialchars($_POST['nom_prenom']));
+
+                    // Insérer les données dans la table jeux_videos
+                    $insererJeuxVideos = $bdd->prepare('INSERT INTO jeux_videos
+                    (titre, description, date_de_creation, nombre_de_joueur, Studio, support, moteur_jeux, type_de_jeu, date_fin, budget, statut_du_jeu, date_mise_a_jour, commentaire, nom_prenom)
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+                    $insererJeuxVideos->execute(array(
+                        $titre, $description, $date_de_creation, $nombre_de_joueur,
+                        $Studio, $support, $moteur_jeux, $type_de_jeu, $date_fin, $budget, $statut_du_jeu,
+                        $date_mise_a_jour, $commentaire, $nom_prenom
+                    ));
+
+                    // Insérer les données dans la table images_jeux
+                    $id_jeux_videos = $bdd->lastInsertId(); // Get the last inserted ID from jeux_videos
+
+                    foreach ($image_paths as $image_path) {
+                        $insererImages = $bdd->prepare('INSERT INTO images_jeux (id_jeux_videos, chemin_image) VALUES (?, ?)');
+                        $insererImages->execute(array($id_jeux_videos, $image_path));
+                    }
+
+                    echo "<div class='condition'>Création réussie !</div>";
+                }
+            } else {
+                echo "Veuillez compléter tous les champs...";
             }
-        } else {
-            echo "Veuillez compléter tous les champs...";
         }
     }
 
@@ -112,6 +125,7 @@
         <form class="publier_jeux_form" action="" method="POST" enctype="multipart/form-data">
             <input type="text" placeholder="Titre" name="titre" required>
             <textarea placeholder="Description" name="description" required></textarea>
+            <input type="hidden" value="<?php echo $_SESSION['csrf_token']; ?>" name="csrf_token" />
             <label class="input_description" for="date_de_creation">Date de création:</label>
             <input type="date" placeholder="date de création" name="date_de_creation" required>
             <input type="number" placeholder="nombre de joueur" name="nombre_de_joueur" required>

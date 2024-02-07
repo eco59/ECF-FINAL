@@ -42,15 +42,18 @@
             // afficher tous les membres
             $recupManager = $bdd->query('SELECT * FROM manager');
             while($manager = $recupManager->fetch()){
-                ?>
-                <p class="affichage_manager"><?= $manager['email'];?><a href="modifier_mdp_manager.php?id=<?= $manager['id'];?>"><button class="button_modif">Modifier le mot de passe</button></a><a href="bannir_manager.php?id=<?= $manager['id'];?>"><button class="button_bannir">Bannir le manager</button></a></p>
-                <?php
+                // use htmlentities to prevent XSS
+            echo '<p class="affichage_manager">' . htmlentities($manager['email'], ENT_QUOTES, 'UTF-8') . 
+            '<a href="modifier_mdp_manager.php?id=' . htmlentities($manager['id'], ENT_QUOTES, 'UTF-8') . '"><button class="button_modif">Modifier le mot de passe</button></a>
+            <a href="bannir_manager.php?id=' . htmlentities($manager['id'], ENT_QUOTES, 'UTF-8') . '"><button class="button_bannir">Bannir le manager</button></a></p>';
             }
             $recupProducteurs = $bdd->query('SELECT * FROM producteurs');
             while($producteurs = $recupProducteurs->fetch()){
-                ?>
-                <p class="affichage_producteur"><?= $producteurs['email'];?><a href="modifier_mdp_producteurs.php?id=<?= $producteurs['id'];?>"><button class="button_modif">Modifier le mot de passe</button></a><a href="bannir_producteur.php?id=<?= $producteurs['id'];?>"><button class="button_bannir">Bannir le producteur</button></a></p>
-                <?php
+                echo '
+                <p class="affichage_producteur">' . htmlentities($producteurs['email'], ENT_QUOTES, 'UTF-8') . 
+                '<a href="modifier_mdp_producteurs.php?id=' . htmlentities($producteurs['id'], ENT_QUOTES, 'UTF-8') . '"><button class="button_modif">Modifier le mot de passe</button></a>
+                <a href="bannir_producteur.php?id=' . htmlentities($producteurs['id'], ENT_QUOTES, 'UTF-8') . '"><button class="button_bannir">Bannir le producteur</button></a></p>';
+                
             }
             ?>
             <!--Fin d'afficher tous les membres -->

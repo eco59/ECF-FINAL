@@ -48,22 +48,26 @@
             // On recupere toutes les infos dans la bdd jeux_videos
             $recupArticles = $bdd->query('SELECT * FROM articles');
             while($Articles = $recupArticles->fetch()){
+                $titre = htmlspecialchars($Articles['titre'], ENT_QUOTES, 'UTF-8');
+                $auteur = htmlspecialchars($Articles['auteur'], ENT_QUOTES, 'UTF-8');
+                $date_mise_a_jour = htmlspecialchars($Articles['date_mise_a_jour'], ENT_QUOTES, 'UTF-8');
+                $id = htmlspecialchars($Articles['id'], ENT_QUOTES, 'UTF-8');
                 ?>
                 <div class="jeux_videos">
                     <div class="partie_titre">
-                        <h1><?= $Articles['titre'];?></h1>
-                        <p><?= $Articles['auteur'];?></p>
-                        <p><?= $Articles['date_mise_a_jour'];?></p>
+                        <h1><?= $titre;?></h1>
+                        <p><?= $auteur;?></p>
+                        <p><?= $date_mise_a_jour;?></p>
                         
-                        <a href="../details/articles_details.php?id=<?= $Articles['id']; ?>">
+                        <a href="../details/articles_details.php?id=<?= $id; ?>">
                             <button class="retour">Voir les détails</button>
                         </a>
                     </div>
                     <div class="partie_button">
-                        <a href="../espace_managers/modifier_articles.php?id=<?= $Articles['id']; ?>">
+                        <a href="../espace_managers/modifier_articles.php?id=<?= $id; ?>">
                             <button class="button_modif">modifier l'article</button>
                         </a>
-                        <a href="../espace_managers/supprimer_articles.php?id=<?= $Articles['id']; ?>">
+                        <a href="../espace_managers/supprimer_articles.php?id=<?= $id; ?>">
                             <button class="button_bannir">Supprimer l'article</button>
                         </a>
                     </div>

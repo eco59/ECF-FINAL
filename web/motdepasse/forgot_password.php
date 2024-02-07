@@ -4,7 +4,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["email"])) {
-            $email = $_POST["email"];
+            $email = htmlspecialchars(trim($_POST["email"])); // Sécurisation de l'e-mail
     
             // Vérifier si l'e-mail existe dans la base de données
             $stmt = $pdo->prepare("SELECT * FROM visiteurs WHERE email = :email");

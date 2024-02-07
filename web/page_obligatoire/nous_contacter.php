@@ -43,26 +43,27 @@
         <p>Nous contacter
         </p>
     </section>
-    <section class="formulaire_nous_contacter">
+    <section class="formulaire_nous_contacter derniere_section">
         <div class="adresse_mail">
-        <form method="POST">
-            <input class="mail" type="mail" placeholder="Entrer votre adresse mail" name="mail" required>
-            <input class="objet" type="text" placeholder="Ecrivez votre objet" name="objet" required>
-            <textarea class="message" placeholder="Ecrivez votre message" name="message" rows="10" cols="30" required></textarea>
-            <input class="button_envoyez" type="submit" id="submit" value="Envoyez">
-            <?php
-            //si le formulaire a été soumis
-            if (isset($_POST["message"])){
-                $message = "Ce message vous a été evoyé via le site gamestudio.fr
-                Email : " .$_POST["email"] . "
-                Message : " . $_POST["message"];
-                $retour = mail("e.coyen@outlook.fr", $_POST["objet"], $message, "From:contact@gamestudio.fr" ."\r\n" . "Reply-to:" . $_POST["email"]);
-                if($retour){
-                    echo "L'email a bien été envoyé";
-                }
-            }
-            ?>
-        </form>
+            <form method="POST">
+                <input class="mail" type="email" placeholder="Entrer votre adresse mail" name="email" required>
+                <input class="objet" type="text" placeholder="Ecrivez votre objet" name="objet" required>
+                <textarea class="message" placeholder="Ecrivez votre message" name="message" rows="10" cols="30" required></textarea>
+                <input class="button_envoyez" type="submit" id="submit" value="Envoyez">
+                <?php
+                    //si le formulaire a été soumis
+                    if (isset($_POST["message"])){
+                        $email = htmlspecialchars(trim($_POST["email"])); // Sécurisation de l'e-mail
+                        $objet = htmlspecialchars(trim($_POST["objet"])); // Sécurisation de l'objet
+                        $message = "Ce message vous a été evoyé via le site gamestudio.fr\n\nEmail : " .$email . "\nMessage : " . $_POST["message"]; // Formatage du message
+                        $headers = "From: contact@gamestudio.fr"; // Définition de l'entête
+                        $retour = mail("e.coyen@outlook.fr", $objet, $message, $headers); // Envoi du mail
+                        if($retour){
+                            echo "L'email a bien été envoyé";
+                        }
+                    }
+                ?>
+            </form>
         </div>
     </section>
     <footer>

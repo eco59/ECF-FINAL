@@ -52,24 +52,29 @@
             include '../connexion_bdd/connexion_bdd.php';
             // Démarrer la session sur chaque page où vous en avez besoin
             session_start();
+            
             // On recupere toutes les infos dans la bdd jeux_videos
             $recupJeuxVideos = $bdd->query('SELECT * FROM jeux_videos');
             while($jeux_videos = $recupJeuxVideos->fetch()){
+                $titre = htmlspecialchars($jeux_videos['titre'], ENT_QUOTES, 'UTF-8');
+                $date_de_creation = htmlspecialchars($jeux_videos['date_de_creation'], ENT_QUOTES, 'UTF-8');
+                $note = htmlspecialchars($jeux_videos['note'], ENT_QUOTES, 'UTF-8');
+                $id = htmlspecialchars($jeux_videos['id'], ENT_QUOTES, 'UTF-8');
                 ?>
                 <div class="jeux_videos">
                     <div class="partie_titre">
-                        <h1><?= $jeux_videos['titre'];?></h1>
-                        <p><?= $jeux_videos['date_de_creation'];?></p>
-                        <p><?= $jeux_videos['note'];?></p>
-                        <a href="../details/jeux_detail.php?id=<?= $jeux_videos['id']; ?>">
+                        <h1><?= $titre;?></h1>
+                        <p><?= $date_de_creation;?></p>
+                        <p><?= $note;?></p>
+                        <a href="../details/jeux_detail.php?id=<?= $id; ?>">
                             <button class="retour">Voir les détails</button>
                         </a>
                     </div>
                     <div class="partie_button">
-                        <a href="../espace_admin/modifier_jeux_video.php?id=<?= $jeux_videos['id']; ?>">
+                        <a href="../espace_admin/modifier_jeux_video.php?id=<?= $id; ?>">
                             <button class="button_modif">modifier le jeux vidéo</button>
                         </a>
-                        <a href="../espace_admin/supprimer_jeux_video.php?id=<?= $jeux_videos['id']; ?>">
+                        <a href="../espace_admin/supprimer_jeux_video.php?id=<?= $id; ?>">
                         <button class="button_bannir">Supprimer le jeux vidéo</button>
                         </a>
                     </div>
