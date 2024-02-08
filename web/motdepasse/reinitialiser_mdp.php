@@ -1,16 +1,47 @@
 <?php
-    //connexion bdd
-    include '../connexion_bdd/connexion_bdd.php';
-
+    // Vérifie si le formulaire a été soumis
     if(isset($_POST['ok'])){
-        $mdp_saisie = $_POST['pass'];
-        $email_saisie = $_POST['email'];
-        //modifier dans la base de donnée
-        $changermdp = $bdd->prepare('UPDATE visiteurs SET mdp = ?, email = ?');
-        $changermdp->execute(array($mdp_saisie, $email_saisie));
-        echo "modification réussie";
+        // Connexion à la base de données
+        include '../connexion_bdd/connexion_bdd.php';
+
+        // Sécurisation des données saisies
+        $mdp_saisie = $_POST['pass']; // Mot de passe saisi sans sécurisation pour validation
+        $pseudo = htmlspecialchars($_POST['pseudo']); // Sécurisation du pseudo saisi
+        $email_saisie = htmlspecialchars($_POST['email']); // Sécurisation de l'e-mail saisi
+        
+        // Vérification de la politique de mot de passe
+        $longueur_min = 12;
+        $majuscule = preg_match('@[A-Z]@', $mdp_saisie);
+        $minuscule = preg_match('@[a-z]@', $mdp_saisie);
+        $caractere_special = preg_match('@[^\w]@', $mdp_saisie);
+
+        // Vérifie si le mot de passe respecte la politique
+        if(strlen($mdp_saisie) < $longueur_min || !$majuscule || !$minuscule || !$caractere_special) {
+            echo "Le mot de passe doit contenir au moins 12 caractères avec au moins une majuscule, une minuscule et un caractère spécial.";
+            exit;
+        }
+        
+        // Hashage du mot de passe
+        $mdp_hash = password_hash($mdp_saisie, PASSWORD_DEFAULT);
+
+        // Modification dans la base de données
+        $changermdp = $bdd->prepare('UPDATE visiteurs SET mdp = :mdp WHERE email = :email AND pseudo = :pseudo'); // Modification de la requête pour mettre à jour le mot de passe d'un utilisateur spécifique
+        $changermdp->bindParam(':mdp', $mdp_hash, PDO::PARAM_STR);
+        $changermdp->bindParam(':email', $email_saisie, PDO::PARAM_STR);
+        $changermdp->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $changermdp->execute();
+        
+        // Vérifie si la modification a réussi
+        if ($changermdp) {
+            header("Location: ../connexion_visiteurs/connexion.php");
+            exit;
+        } else {
+            echo "Erreur lors de la modification";
+        }
     }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,7 +54,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -32,7 +63,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -58,7 +89,8 @@
     </section>
     <article class="article_oublie_mdp">
         <form action="" method="POST">
-            <input class="email_mdp_oublie" type="text" id="email" name="email" placeholder="Entrer votre adresse mail"  required>
+            <input class="email_mdp_oublie" type="email" id="email" name="email" placeholder="Entrer votre adresse mail"  required>
+            <input class="email_mdp_oublie mdp_new" type="text" placeholder="Entrer votre pseudo" name="pseudo" required>
             <input class="email_mdp_oublie mdp_new" type="password" id="pass" name="pass" placeholder="Nouveau mot de passe"  required>
             <input class="button_oublie" type="submit"value="Modifier" name="ok">
         </form>
