@@ -2,6 +2,9 @@
     //connexion bdd
     include '../connexion_bdd/connexion_bdd.php';
 
+    // Démarrage de la session
+    session_start();
+
     
 ?>
 <!DOCTYPE html>
@@ -16,7 +19,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -25,7 +28,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -52,7 +55,7 @@
     <section class="connexion">
         <div class="login">
         <form method="POST" action="login.php">
-            <input  class="user" type="text" name="email" placeholder="Entrer votre adresse mail"  required>
+            <input  class="user" type="email" name="email" placeholder="Entrer votre adresse mail"  required>
             <input class="user" type="text" placeholder="Entrer votre pseudo" name="pseudo" required>
             <input class="mdp" type="password" placeholder="Entrer le mot de passe" id="password" name="password" required>
             <input class="button" type="submit" value="Se connecter" name="ok">
@@ -60,7 +63,7 @@
         </div>
         <div class="inscription">
         <form  method="POST" action="inscription.php">
-            <input  class="mail" type="text" id="email" name="email" placeholder="Entrer votre adresse mail"  required>
+            <input  class="mail" type="email" id="email" name="email" placeholder="Entrer votre adresse mail"  required>
             <input  class="mail" type="text" id="pseudo" name="pseudo" placeholder="Entrer votre pseudo"  required>
             <input class="mdp_inscription" type="password" id="pass" name="pass" placeholder="Entrer le mot de passe"  required>
             <input class="button" type="submit"value="S'inscrire" name="ok">
