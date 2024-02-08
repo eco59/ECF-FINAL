@@ -5,7 +5,7 @@
     session_start();
     // On recupere les infos
     if(isset($_GET['id']) AND !empty($_GET['id'])){
-        $getid = $_GET['id'];
+        $getid = htmlspecialchars($_GET['id']);
         $recupArticles = $bdd->prepare('SELECT * FROM articles WHERE id = ?');
         $recupArticles->execute(array($getid));
         if($recupArticles->rowCount() > 0){
