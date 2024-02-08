@@ -51,7 +51,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -60,7 +60,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -86,9 +86,9 @@
     </section>
     <articles class="jeux_videos_details derniere_section">
         <div class="div">
-            <h1><?= $jeux_videos['titre']; ?></h1>
-            <p>Type/Genre :  <?= $jeux_videos['type_de_jeu'];?></p>
-            <p class="note">Note: <?= $jeux_videos['note']; ?>/10</p> <!-- Ajout de cette ligne pour afficher la note -->
+            <h1><?= htmlspecialchars($jeux_videos['titre']); ?></h1>
+            <p>Type/Genre :  <?= htmlspecialchars($jeux_videos['type_de_jeu']);?></p>
+            <p class="note">Note: <?= htmlspecialchars($jeux_videos['note']); ?>/10</p> <!-- Ajout de cette ligne pour afficher la note -->
         </div>
             <p class="contenu"><?= htmlspecialchars_decode(strip_tags($jeux_videos['description'])); ?></p>
 
@@ -98,24 +98,24 @@
             <?php endforeach; ?>
         </div>
         <div class="div">
-            <p>Support : <?= $jeux_videos['support'];?></p>
-            <p>Date de création : <?= $jeux_videos['date_de_creation'];?></p>
+            <p>Support : <?= htmlspecialchars($jeux_videos['support']);?></p>
+            <p>Date de création : <?= htmlspecialchars($jeux_videos['date_de_creation']);?></p>
         </div>
         <div class="div">
-            <p>Moteur de jeux : <?= $jeux_videos['moteur_jeux'];?></p>
-            <p>Date de mise a jour : <?= $jeux_videos['date_mise_a_jour'];?></p>
+            <p>Moteur de jeux : <?= htmlspecialchars($jeux_videos['moteur_jeux']);?></p>
+            <p>Date de mise a jour : <?= htmlspecialchars($jeux_videos['date_mise_a_jour']);?></p>
         </div>
         <div class="div">
-            <p id="favoris-count">Nombre d'utilisateurs qui a mis ce jeu en favori :  <?= $jeux_videos['favoris_count']; ?></p>
+            <p id="favoris-count">Nombre d'utilisateurs qui a mis ce jeu en favori :  <?= htmlspecialchars($jeux_videos['favoris_count']); ?></p>
             
         </div>
         <div class="div">
-            <p>Date estimé de fin de création : <?= $jeux_videos['date_fin'];?></p>
+            <p>Date estimé de fin de création : <?= htmlspecialchars($jeux_videos['date_fin']);?></p>
         </div>
         <div class="div">
-            <p>Statut : <?= $jeux_videos['statut_du_jeu'];?></p>
-            <p>Nombre de joueur : <?= $jeux_videos['nombre_de_joueur'];?></p>
-            <p>Studio : <?= $jeux_videos['Studio'];?></p>
+            <p>Statut : <?= htmlspecialchars($jeux_videos['statut_du_jeu']);?></p>
+            <p>Nombre de joueur : <?= htmlspecialchars($jeux_videos['nombre_de_joueur']);?></p>
+            <p>Studio : <?= htmlspecialchars($jeux_videos['Studio']);?></p>
         </div>
         <div class="div_favoris">
             <button class="<?= $isInFavorites ? 'retirer_favori' : 'ajouter_favori'; ?>" data-id="<?= $id_jeu; ?>">

@@ -13,20 +13,22 @@
         $dossier_images = "../images/";
         $image_paths = array();
 
-        // verifying the image files to avoid script injection
+        // vérifier si des fichiers ont été téléchargés
         if(isset($_FILES["image"]) && is_array($_FILES["image"]["tmp_name"])) {
+            // boucle pour traiter chaque fichier téléchargé
             foreach ($_FILES["image"]["tmp_name"] as $key => $tmp_name) {
-            $nom_fichier = basename($_FILES["image"]["name"][$key]);
-            $chemin_fichier = $dossier_images . $nom_fichier;
-            
-            // Verifying image path before moving the file
-            if(is_uploaded_file($tmp_name) && getimagesize($tmp_name) !== false){
-                move_uploaded_file($tmp_name, $chemin_fichier);
-                $image_paths[] = $nom_fichier;
-            } else {
-                echo 'Invalid image file';
-                exit;
-            }
+                $nom_fichier = basename($_FILES["image"]["name"][$key]);
+                $chemin_fichier = $dossier_images . $nom_fichier;
+                
+                // Vérifier le fichier et le déplacer s'il est valide
+                if(is_uploaded_file($tmp_name) && getimagesize($tmp_name) !== false){
+                    move_uploaded_file($tmp_name, $chemin_fichier);
+                    $image_paths[] = $nom_fichier;
+                } else {
+                    // Vous pouvez ignorer cette vérification si aucun fichier n'est téléchargé
+                    // echo 'Invalid image file';
+                    // exit;
+                }
             }
         }
 
@@ -121,7 +123,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -130,7 +132,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                     <a href="../connexion_visiteurs/connexion.php">Mon espace</a>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
@@ -148,9 +150,7 @@
     <article class="publier_jeux">
         <form class="publier_jeux_form" action="" method="POST" enctype="multipart/form-data">
             <input type="text" name="titre" value="<?= $titre; ?>" readonly>
-            <textarea name="description">
-                <?= $description; ?>
-            </textarea>
+            <textarea name="description"><?= $description; ?></textarea>
             <label class="input_description" for="date_de_creation">Date de création:</label>
             <input type="date" placeholder="date de création" name="date_de_creation" value="<?= $date_de_creation; ?>" required>
             <input type="number" placeholder="nombre de joueur" name="nombre_de_joueur" value="<?= $nombre_de_joueur; ?>" required>

@@ -17,7 +17,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -26,7 +26,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                 <?php
                     if(isset($_SESSION['pseudo'])) {
                         // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion

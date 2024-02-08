@@ -42,7 +42,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -51,7 +51,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -72,7 +72,7 @@
         </div>
     </section>
     <section class="description_de_la_page_articles">
-        <p>Toutes les infos geek en details !
+        <p>Toutes les infos geek en détails !
         </p>
     </section>
     <article class="articles_en_details derniere_section">

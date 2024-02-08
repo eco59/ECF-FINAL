@@ -2,37 +2,57 @@
     //connexion bdd
     include '../connexion_bdd/connexion_bdd.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["email"])) {
-            $email = htmlspecialchars(trim($_POST["email"])); // Sécurisation de l'e-mail
-    
-            // Vérifier si l'e-mail existe dans la base de données
-            $stmt = $pdo->prepare("SELECT * FROM visiteurs WHERE email = :email");
-            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt->execute();
-            $visiteurs = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            if ($visiteurs) {
-                // Générer un token unique pour la réinitialisation du mot de passe
-                $token = bin2hex(random_bytes(32));
-    
-                // Mettre à jour la base de données avec le token
-                $stmt = $pdo->prepare("UPDATE visiteurs SET reset_token = :token WHERE email = :email");
-                $stmt->bindParam(":token", $token, PDO::PARAM_STR);
-                $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-                $stmt->execute();
-    
-                // Envoyer un e-mail avec le lien de réinitialisation
-                $reset_link = "http://gamestudio.com/reinitialiser_mdp.php?token=$token";
-                $message = "Bonjour,\n\nPour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : $reset_link";
-                mail($email, "Réinitialisation de mot de passe", $message);
-    
-                echo "Un e-mail a été envoyé avec les instructions de réinitialisation du mot de passe.";
-            } else {
-                echo "Aucun compte associé à cet e-mail.";
+    // Fonction pour valider une adresse e-mail
+    function valider_email($email) {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    // Fonction pour échapper les données
+    function echapper_donnees($donnees) {
+        return htmlspecialchars(trim($donnees), ENT_QUOTES, 'UTF-8');
+    }
+
+    // Vérifie si le formulaire a été soumis
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["envoi"])) {
+        // Vérifie si l'e-mail est défini et non vide
+        if (isset($_POST["email"]) && !empty($_POST["email"])) {
+            // Échapper les données du formulaire
+            $destinataire = echapper_donnees($_POST["email"]);
+
+            // Valider l'adresse e-mail
+            if (!valider_email($destinataire)) {
+                echo "Veuillez entrer une adresse e-mail valide.";
+                exit;
             }
+
+            // Adresse e-mail du destinataire externe
+            $destinataire =  $_POST["email"]; // Remplacez par votre adresse e-mail externe
+
+            // Sujet de l'e-mail
+            $sujet = "Sujet de l'e-mail";
+
+            // Corps de l'e-mail
+            $message = "Bonjour, pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant : https://www.gamesoft.go.yj.fr/web/motdepasse/reinitialiser_mdp.php ; Bonne journée !";
+
+            // En-têtes de l'e-mail
+            $headers = "From: contact@gamesoft.go.yj.fr\r\n";
+            $headers .= "Reply-To: contact@gamesoft.go.yj.fr\r\n";
+            $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+            // Envoi de l'e-mail
+            $envoi = mail($destinataire, $sujet, $message, $headers);
+
+            // Vérification si l'e-mail a été envoyé avec succès
+            if ($envoi) {
+                echo "L'e-mail a été envoyé avec succès.";
+            } else {
+                echo "Une erreur s'est produite lors de l'envoi de l'e-mail.";
+            }
+        } else {
+            echo "Veuillez entrer une adresse e-mail valide.";
         }
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +67,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -56,7 +76,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion

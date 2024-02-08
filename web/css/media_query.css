@@ -45,7 +45,7 @@
     {
         font-size: 20px;
         LINE-HEIGHT: 18px;
-        height: 20%;
+        
     }
     .description_de_la_page_membre
     {
@@ -97,10 +97,6 @@
         DISPLAY: FLEX;
         flex-direction: row;
         padding-right: 50%;
-    }
-    .jeux button 
-    {
-        margin-top: 15px;
     }
     .button_favori
     {
@@ -329,7 +325,6 @@
     .description_de_la_page
     {
         font-size: 20px;
-        height: 23%;
         line-height: 17px;
     }
     .condition
@@ -600,7 +595,6 @@
         FONT-SIZE: 27px;
         line-height: 20px;
         margin-top: 1%;
-        height: 26%;
     }
     
     .titre_articles  img 
@@ -616,7 +610,6 @@
     {
         margin-left: 67%;
         position: absolute;
-        top: 43%;
     }
     .button_voir_plus button 
     {
@@ -655,10 +648,6 @@
         margin-top: 2px;
         font-size: 18px;
         LINE-HEIGHT: 25px;
-    }
-    .jeux .button_voir_plus
-    {
-        TOP: 58%;
     }
     .jeux button 
     {
@@ -877,8 +866,6 @@
     {
         FONT-SIZE: 27px;
         line-height: 27px;
-        margin-top: 0;
-        height: 26%;
     }
     .description_de_la_page_membre
     {
@@ -901,8 +888,6 @@
     .button_voir_plus
     {
         margin-left: 75%;
-        position: absolute;
-        top: 45%;
     }
     .button_voir_plus button 
     {
@@ -918,7 +903,7 @@
     .auteur_article
     {
         FONT-SIZE: 17px;
-        margin-top: 1%;
+        margin-top: 3%;
         margin-left: 6%;
         margin-bottom: 1%;
     }
@@ -942,10 +927,6 @@
         margin-top: 18px;
         font-size: 23px;
         LINE-HEIGHT: 25px;
-    }
-    .jeux .button_voir_plus
-    {
-        TOP: 61%;
     }
     .jeux button 
     {

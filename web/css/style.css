@@ -133,7 +133,6 @@ label
     font-size: 15px;
     line-height: 13px;
     color: #FFFFFF;
-    height: 18%;
     letter-spacing: 0.5px;
 }
 .description_de_la_page_membre
@@ -400,10 +399,9 @@ label
     font-size: 20px;
     margin-left: 4%;
     TEXT-ALIGN: justify;
-    line-height: 13px;
-    letter-spacing: 0.5px;
+    
     line-height: 100%;
-    padding-right: 200px;
+    
 }
 .articles_en_details img
 {
@@ -660,6 +658,7 @@ table
 {
     flex-direction: column;
     padding-left: 10px;
+    padding-bottom: 100px;
 }
 .titre_jeux
 {
@@ -878,3 +877,4 @@ label
     width: 200px;
     font-size: 15px;
 }
+

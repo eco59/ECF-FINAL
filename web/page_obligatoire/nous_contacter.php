@@ -1,3 +1,45 @@
+<?php
+    // connexion bdd
+    include '../connexion_bdd/connexion_bdd.php';
+    
+    // Démarrage de la session
+    session_start();
+    
+    // Fonction d'échappement pour les chaînes
+    function escape_string($string) {
+        return htmlspecialchars(trim($string), ENT_QUOTES, 'UTF-8');
+    }
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Vérifiez si les champs sont vides
+        if (empty($_POST["email"]) || empty($_POST["objet"]) || empty($_POST["message"])) {
+            echo "Tous les champs doivent être remplis.";
+            exit;
+        }
+    
+        // Récupérez et échappez les données du formulaire
+        $email = escape_string($_POST["email"]);
+        $objet = escape_string($_POST["objet"]);
+        $message = "Ce message vous a été envoyé via le site gamestudio.go.yj.fr\n\nEmail : " . $email . "\nMessage : " . escape_string($_POST["message"]);
+    
+        // En-têtes du mail avec encodage UTF-8
+        $headers = "From: contact@gamesoft.go.yj.fr" . "\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8" . "\r\n";
+        $headers .= "Content-Transfer-Encoding: 8bit" . "\r\n";
+    
+        // Envoyer l'email
+        $retour = mail("contact@gamesoft.go.yj.fr", $objet, $message, $headers);
+    
+        // Vérifier si l'email a été envoyé avec succès
+        if ($retour) {
+            echo "L'email a bien été envoyé";
+        } else {
+            echo "Une erreur s'est produite lors de l'envoi de l'email. Veuillez réessayer plus tard.";
+        }
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,7 +52,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -19,7 +61,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -45,40 +87,43 @@
     </section>
     <section class="formulaire_nous_contacter derniere_section">
         <div class="adresse_mail">
-            <form method="POST">
+            <form method="POST" onsubmit="return validateForm()" action="">
                 <input class="mail" type="email" placeholder="Entrer votre adresse mail" name="email" required>
                 <input class="objet" type="text" placeholder="Ecrivez votre objet" name="objet" required>
                 <textarea class="message" placeholder="Ecrivez votre message" name="message" rows="10" cols="30" required></textarea>
+                <div id="error_message"></div>
                 <input class="button_envoyez" type="submit" id="submit" value="Envoyez">
-                <?php
-                    //si le formulaire a été soumis
-                    if (isset($_POST["message"])){
-                        $email = htmlspecialchars(trim($_POST["email"])); // Sécurisation de l'e-mail
-                        $objet = htmlspecialchars(trim($_POST["objet"])); // Sécurisation de l'objet
-                        $message = "Ce message vous a été evoyé via le site gamestudio.fr\n\nEmail : " .$email . "\nMessage : " . $_POST["message"]; // Formatage du message
-                        $headers = "From: contact@gamestudio.fr"; // Définition de l'entête
-                        $retour = mail("e.coyen@outlook.fr", $objet, $message, $headers); // Envoi du mail
-                        if($retour){
-                            echo "L'email a bien été envoyé";
-                        }
-                    }
-                ?>
+                
             </form>
         </div>
     </section>
     <footer>
-    <div class="mentions_obligatoire">
-            <a href="../page_obligatoire/nous_contacter.php">NOUS CONTACTER</a>
-            <a href="../page_obligatoire/mentions_legales.html">MENTIONS LEGALES</a>
-            <a href="../page_obligatoire/politique_de_confidentialite.html">POLITIQUE DE CONFIDENTALITE</a>
-        </div>
-        <div class="logo_reseaux">
-            <img src="../asset/facebook-min.jpg" alt="faceboook">
-            <img src="../asset/TIKTOK-min.jpg" alt="tiktok">
-            <img src="../asset/twitter-min.jpg" alt="twitter">
-            <img src="../asset/youtube-min.jpg" alt="youtube">
-            <img src="../asset/linkedin-min.jpg" alt="linkedin">
+        <div class="mentions_obligatoire">
+                <a href="../page_obligatoire/nous_contacter.php">NOUS CONTACTER</a>
+                <a href="../page_obligatoire/mentions_legales.html">MENTIONS LEGALES</a>
+                <a href="../page_obligatoire/politique_de_confidentialite.html">POLITIQUE DE CONFIDENTALITE</a>
+            </div>
+            <div class="logo_reseaux">
+                <img src="../asset/facebook-min.jpg" alt="faceboook">
+                <img src="../asset/TIKTOK-min.jpg" alt="tiktok">
+                <img src="../asset/twitter-min.jpg" alt="twitter">
+                <img src="../asset/youtube-min.jpg" alt="youtube">
+                <img src="../asset/linkedin-min.jpg" alt="linkedin">
         </div>
     </footer>
+    <script>
+        function validateForm() {
+            var email = document.forms["contactForm"]["email"].value;
+            var objet = document.forms["contactForm"]["objet"].value;
+            var message = document.forms["contactForm"]["message"].value;
+
+            if (email == "" || objet == "" || message == "") {
+                document.getElementById("error_message").innerHTML = "Tous les champs doivent être remplis";
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>

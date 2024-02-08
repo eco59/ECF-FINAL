@@ -10,7 +10,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -19,7 +19,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                     <a href="../connexion_visiteurs/connexion.php">Mon espace</a>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
