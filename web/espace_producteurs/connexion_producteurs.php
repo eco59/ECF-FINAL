@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    // Générer et stocker le jeton CSRF
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,7 +17,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -19,7 +26,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                     <a href="../connexion_visiteurs/connexion.php">Mon espace</a>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
@@ -39,7 +46,18 @@
         <form method="POST" action="login_producteurs.php">
             <input class="admin" type="email" placeholder="Entrer votre adresse mail" id="email" name="email" required>
             <input class="mdp_admin" type="password" placeholder="Entrer le mot de passe" id="password" name="password" required>
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
             <input class="button_admin" type="submit" value="Se connecter" name="ok">
+            <?php
+                    if(!empty($_POST['csrf_token'])) {
+                        if(hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+                            // Process form data here
+                            $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+                            $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+                            // use $email and $password in your db queries
+                        }
+                    }
+                ?>
         </form>
     </section>
     <section class="connexion">
