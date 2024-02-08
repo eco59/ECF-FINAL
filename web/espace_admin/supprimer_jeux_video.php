@@ -5,7 +5,7 @@
     session_start();
     // On recupere les infos
     if(isset($_GET['id']) AND !empty($_GET['id'])){
-        $getid = $_GET['id'];
+        $getid = htmlspecialchars($_GET['id']);
         $recupJeuxVideos = $bdd->prepare('SELECT * FROM jeux_videos WHERE id = ?');
         $recupJeuxVideos->execute(array($getid));
         if($recupJeuxVideos->rowCount() > 0){
