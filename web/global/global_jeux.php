@@ -4,10 +4,10 @@
     // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
     // Vérifiez si la clé 'favoris' existe dans $_SESSION
-if (!isset($_SESSION['favoris'])) {
-    // Si elle n'existe pas, initialisez-la comme un tableau vide
-    $_SESSION['favoris'] = array();
-}
+    if (!isset($_SESSION['favoris'])) {
+        // Si elle n'existe pas, initialisez-la comme un tableau vide
+        $_SESSION['favoris'] = array();
+    }
     
     // Récupération des paramètres de la requête
     $terme = isset($_GET['terme']) ? '%' . htmlspecialchars(trim(strip_tags($_GET['terme']))) . '%' : '';
@@ -43,7 +43,6 @@ if (!isset($_SESSION['favoris'])) {
     // Préparation et exécution de la requête
     $recupJeuxVideos = $bdd->prepare($sql);
     $recupJeuxVideos->execute($params);
-
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +57,7 @@ if (!isset($_SESSION['favoris'])) {
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -67,7 +66,7 @@ if (!isset($_SESSION['favoris'])) {
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -99,38 +98,37 @@ if (!isset($_SESSION['favoris'])) {
         </p>
     </section>
     <section class="search_jeux">
-    <form class="publier_jeux_form" action = "" method = "GET">
-        <input type = "search" placeholder="Taper votre recherche..." name = "terme">
-        <select id="type_de_jeu" name="type_de_jeu">
-            <option value="">Tous les genres</option>
-            <option value="Action">Action</option>
-            <option value="RPG">RPG</option>
-            <option value="FPS">FPS</option>
-            <option value="MMO">MMO</option>
-            <option value="Aventure">Aventure</option>
-            <option value="Sport">Sport</option>
-            <option value="Combat">Combat</option>
-            <option value="Stratégie">Stratégie</option>
-            <!-- Ajoutez d'autres options de genre selon votre base de données -->
-        </select>
-        <select id="statut_du_jeu" name="statut_du_jeu">
-            <option value="">Tous les statuts</option>
-            <option value="En cours">En cours</option>
-            <option value="Fini">Fini</option>
-            <!-- Ajoutez d'autres options de statut selon votre base de données -->
-        </select>
-        <input type="date" id="date_fin" name="date_fin">
-    </form>
+        <form class="publier_jeux_form" action="" method="GET">
+            <input type="search" placeholder="Taper votre recherche..." name="terme">
+            <select id="type_de_jeu" name="type_de_jeu">
+                <option value="">Tous les genres</option>
+                <option value="Action">Action</option>
+                <option value="RPG">RPG</option>
+                <option value="FPS">FPS</option>
+                <option value="MMO">MMO</option>
+                <option value="Aventure">Aventure</option>
+                <option value="Sport">Sport</option>
+                <option value="Combat">Combat</option>
+                <option value="Stratégie">Stratégie</option>
+                <!-- Ajoutez d'autres options de genre selon votre base de données -->
+            </select>
+            <select id="statut_du_jeu" name="statut_du_jeu">
+                <option value="">Tous les statuts</option>
+                <option value="En cours">En cours</option>
+                <option value="Fini">Fini</option>
+                <!-- Ajoutez d'autres options de statut selon votre base de données -->
+            </select>
+            <input type="date" id="date_fin" name="date_fin">
+        </form>
     </section>
-    <article class="jeux_global derniere_section ">
-        
+    <article class="jeux_global derniere_section">
         <?php
         if ($recupJeuxVideos->rowCount() > 0) {
             while ($row = $recupJeuxVideos->fetch(PDO::FETCH_ASSOC)) {
                 echo "<table>";
                 echo "<tr class='premiere_partie'>";
-                echo "<td class='titre'><a href='../details/jeux_detail.php?id=" . $row['id'] . "'>" . $row["titre"] . "</a></td>";
-                echo "<td class='priorite'>" . $row["note"] .  "/10</td>"; // Ajout de cette ligne pour afficher la note
+                echo "<td class='titre'><a href='../details/jeux_detail.php?id=" . $row['id'] . "'>" . htmlspecialchars($row["titre"]) . "</a></td>";
+                echo "<td class='priorite'>" . htmlspecialchars($row["note"]) .  "/10</td>"; // Ajout de cette ligne pour afficher la note
                 echo "</tr>";
                 
                 echo "<tr class='deuxieme_partie'>";
@@ -140,21 +138,20 @@ if (!isset($_SESSION['favoris'])) {
                 $image = $imagePath->fetch(PDO::FETCH_ASSOC);
                 
                 if ($image) {
-                    echo "<td class='galerie-images'><img src='../images/" . $image["chemin_image"] . "' alt='Image'></td>";
+                    echo "<td class='galerie-images'><img src='../images/" . htmlspecialchars($image["chemin_image"]) . "' alt='Image'></td>";
                 } else {
                     echo "<td class='galerie-images'>Aucune image</td>";
                 }
                 
-                
                 // Ajoutez le bouton "Ajouter à mes favoris" avec un attribut data-id pour stocker l'identifiant du jeu
                 $buttonText = in_array($row['id'], $_SESSION['favoris']) ? 'Retirer des favoris' : 'Ajouter à mes favoris';
                 $buttonClass = in_array($row['id'], $_SESSION['favoris']) ? 'retirer_favori' : 'ajouter_favori';
-                echo "<td><button class='$buttonClass favoris_jeux_global' data-id='" . $row['id'] . "'>$buttonText</button></td>";
+                echo "<td><button class='$buttonClass favoris_jeux_global' data-id='" . htmlspecialchars($row['id']) . "'>$buttonText</button></td>";
                 echo "</tr>";
 
                 echo "<tr class='troisieme_partie'>";
-                echo "<td class='contenu'>" . $row["description"] . "</td>";
-                echo "<td class='statut'>". $row["statut_du_jeu"] . "</td>";
+                echo "<td class='contenu'>" . htmlspecialchars_decode(strip_tags($row["description"])) . "</td>";
+                echo "<td class='statut'>". htmlspecialchars($row["statut_du_jeu"]) . "</td>";
                 echo "</tr>";
             }
             echo "</table>";
@@ -162,11 +159,10 @@ if (!isset($_SESSION['favoris'])) {
             echo "Aucun résultat trouvé.";
         }
         ?>
-        </div>
     </article>
 
     <footer>
-    <div class="mentions_obligatoire">
+        <div class="mentions_obligatoire">
             <a href="../page_obligatoire/nous_contacter.php">NOUS CONTACTER</a>
             <a href="../page_obligatoire/mentions_legales.html">MENTIONS LEGALES</a>
             <a href="../page_obligatoire/politique_de_confidentialite.html">POLITIQUE DE CONFIDENTALITE</a>
