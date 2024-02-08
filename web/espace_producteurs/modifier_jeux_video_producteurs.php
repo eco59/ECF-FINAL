@@ -5,7 +5,7 @@
     session_start();
 
     if(isset($_GET['id']) AND !empty($_GET['id'])){
-        $getid = $_GET['id'];
+        $getid = htmlentities($_GET['id']);
         // On prepare la bdd pour vérifier si le jeux video est bien cree
         $recupJeuxVideos = $bdd->prepare('SELECT * FROM jeux_videos WHERE id = ?');
         $recupJeuxVideos->execute(array($getid));
@@ -26,20 +26,20 @@
         if($recupJeuxVideos->rowCount() > 0){
             $jeux_videox_infos = $recupJeuxVideos->fetch();
             // On recupere les infos 
-            $titre = $jeux_videox_infos['titre'];
-            $description = $jeux_videox_infos['description'];
-            $date_de_creation = $jeux_videox_infos['date_de_creation'];
-            $nombre_de_joueur = $jeux_videox_infos['nombre_de_joueur'];
-            $Studio = $jeux_videox_infos['Studio'];
-            $support = $jeux_videox_infos['support'];
-            $moteur_jeux = $jeux_videox_infos['moteur_jeux'];
-            $type_de_jeu = $jeux_videox_infos['type_de_jeu'];
-            $date_fin = $jeux_videox_infos['date_fin'];
-            $budget = $jeux_videox_infos['budget'];
-            $statut_du_jeu = $jeux_videox_infos['statut_du_jeu'];
-            $date_mise_a_jour = $jeux_videox_infos['date_mise_a_jour'];
-            $commentaire = $jeux_videox_infos['commentaire'];
-            $nom_prenom = $jeux_videox_infos['nom_prenom'];
+            $titre = htmlspecialchars($jeux_videox_infos['titre'], ENT_QUOTES, 'UTF-8');
+            $description = htmlspecialchars($jeux_videox_infos['description'], ENT_QUOTES, 'UTF-8');
+            $date_de_creation = htmlspecialchars($jeux_videox_infos['date_de_creation'], ENT_QUOTES, 'UTF-8');
+            $nombre_de_joueur = htmlspecialchars($jeux_videox_infos['nombre_de_joueur'], ENT_QUOTES, 'UTF-8');
+            $Studio = htmlspecialchars($jeux_videox_infos['Studio'], ENT_QUOTES, 'UTF-8');
+            $support = htmlspecialchars($jeux_videox_infos['support'], ENT_QUOTES, 'UTF-8');
+            $moteur_jeux = htmlspecialchars($jeux_videox_infos['moteur_jeux'], ENT_QUOTES, 'UTF-8');
+            $type_de_jeu = htmlspecialchars($jeux_videox_infos['type_de_jeu'], ENT_QUOTES, 'UTF-8');
+            $date_fin = htmlspecialchars($jeux_videox_infos['date_fin'], ENT_QUOTES, 'UTF-8');
+            $budget = htmlspecialchars($jeux_videox_infos['budget'], ENT_QUOTES, 'UTF-8');
+            $statut_du_jeu = htmlspecialchars($jeux_videox_infos['statut_du_jeu'], ENT_QUOTES, 'UTF-8');
+            $date_mise_a_jour = htmlspecialchars($jeux_videox_infos['date_mise_a_jour'], ENT_QUOTES, 'UTF-8');
+            $commentaire = htmlspecialchars($jeux_videox_infos['commentaire'], ENT_QUOTES, 'UTF-8');
+            $nom_prenom = htmlspecialchars($jeux_videox_infos['nom_prenom'], ENT_QUOTES, 'UTF-8');
             //enlever les balise br qui s'affiche automatiquement
             str_replace('<br />', '', $jeux_videox_infos['description']);
             // si on appuye sur le bouton valider on change les informations
@@ -108,7 +108,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -117,7 +117,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                     <a href="../connexion_visiteurs/connexion.php">Mon espace</a>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
@@ -134,27 +134,27 @@
     </section>
     <article class="publier_jeux">
         <form class="publier_jeux_form" action="" method="POST">
-            <input type="text" name="titre" value="<?= $titre; ?>" disabled="disabled">
-            <textarea name="description" disabled="disabled" >
+            <input type="text" name="titre" value="<?= $titre; ?>" readonly>
+            <textarea name="description" readonly >
                 <?= $description; ?> 
             </textarea>
             <label class="input_description" for="date_de_creation">Date de création:</label>
-            <input type="date" placeholder="date de création" name="date_de_creation"  disabled="disabled" >
-            <input type="number" placeholder="nombre de joueur" name="nombre_de_joueur" disabled="disabled" >
-            <input type="text" placeholder="Gamesoft" name="Studio" disabled="disabled">
-            <select name="support" required>
-                <option value="">Support de jeux</option>
-                <option value="ordinateur" <?php if ($support === 'ordinateur') echo 'selected'; ?>>Ordinateur</option>
+            <input type="date" placeholder="date de création" name="date_de_creation" value="<?= $date_de_creation; ?>" readonly >
+            <input type="number" placeholder="nombre de joueur" name="nombre_de_joueur" value="<?= $nombre_de_joueur; ?>"readonly >
+            <input type="text" placeholder="Gamesoft" name="Studio" readonly>
+            <select name="support" disabled ="disabled">
+                <option value="" >Support de jeux</option>
+                <option value="ordinateur" <?php if ($support === 'ordinateur') echo 'selected'; ?> >Ordinateur</option>
                 <option value="console" <?php if ($support === 'console') echo 'selected'; ?>>Console</option>
                 <option value="Console/Ordinateur" <?php if ($support === 'Console/Ordinateur') echo 'selected'; ?>>Console/Ordinateur</option>
             </select>
-            <select name="moteur_jeux" required>
+            <select name="moteur_jeux"disabled ="disabled">
                 <option value="">Moteur de jeux</option>
                 <option value="Unity" <?php if ($moteur_jeux === 'Unity') echo 'selected'; ?>>Unity</option>
                 <option value="Unreal" <?php if ($moteur_jeux === 'Unreal') echo 'selected'; ?>>Unreal</option>
                 <option value="CryEngine" <?php if ($moteur_jeux === 'CryEngine') echo 'selected'; ?>>CryEngine</option>
             </select>
-            <select name="type_de_jeu" required>
+            <select name="type_de_jeu" disabled ="disabled">
                 <option value="">Tous les genres</option>
                 <option value="Action" <?php if ($type_de_jeu === 'Action') echo 'selected'; ?>>Action</option>
                 <option value="RPG" <?php if ($type_de_jeu === 'RPG') echo 'selected'; ?>>RPG</option>
@@ -167,7 +167,7 @@
             </select>
             <label class="input_description" for="date_fin">Date de fin:</label>
             <input type="date" placeholder="date estimé de fin" name="date_fin" value="<?php echo $derniereDateAnnee->format('Y-m-d');?>" >
-            <input type="number" placeholder="budget" name="budget">
+            <input type="number" placeholder="budget" name="budget"value="<?= $budget; ?>" >
             <select name="statut_du_jeu">
                 <option value="">Tous les statuts</option>
                 <option value="En cours" <?php if ($statut_du_jeu === 'En cours') echo 'selected'; ?>>En cours</option>
@@ -178,7 +178,7 @@
             <label class="input_description" for="commentaire">Commentaire :</label>
             <textarea name="commentaire" rows="4" cols="50"></textarea><br>
             <input type="hidden" name="nom_prenom" value="<?= $nom_prenom; ?>">
-            <input type="text" name="nom_prenom_disabled" placeholder="Mettez votre nom et prenom" value="<?= $nom_prenom; ?>" disabled="disabled">
+            <input type="text" name="nom_prenom_disabled" placeholder="Mettez votre nom et prenom" value="<?= $nom_prenom; ?>" readonly>
             <input class="files" type="file" name="image[]" multiple>
             <input class="button_creation" type="submit" name="valider">
         </form>

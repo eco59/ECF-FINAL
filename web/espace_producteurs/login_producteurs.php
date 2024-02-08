@@ -5,11 +5,20 @@
     // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
 
+// Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Vérifier le jeton CSRF
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token');
+    }
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if ($email != "" && $password != "") {
+    // Vérifier la complexité du mot de passe (12 caractères minimum, une majuscule, une minuscule, un caractère spécial)
+        if (strlen($password) < 12 || !preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
+            echo "Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule et un caractère spécial.";
+        } else {
 
         // Utilisation de requêtes préparées pour éviter les injections SQL
         $requete = $bdd->prepare("SELECT id, mdp FROM producteurs WHERE email = :email");

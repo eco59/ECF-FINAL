@@ -17,7 +17,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -26,7 +26,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                     <a href="../connexion_visiteurs/connexion.php">Mon espace</a>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
@@ -63,23 +63,29 @@
             // On recupere toutes les infos dans la bdd jeux_videos
             $recupJeuxVideos = $bdd->query('SELECT * FROM jeux_videos');
             while($jeux_videos = $recupJeuxVideos->fetch()){
+                $titre = htmlspecialchars($jeux_videos['titre'], ENT_QUOTES, 'UTF-8');
+                $date_fin = htmlspecialchars($jeux_videos['date_fin'], ENT_QUOTES, 'UTF-8');
+                $budget = htmlspecialchars($jeux_videos['budget'], ENT_QUOTES, 'UTF-8');
+                $date_mise_a_jour = htmlspecialchars($jeux_videos['date_mise_a_jour'], ENT_QUOTES, 'UTF-8');
+                $nom_prenom = htmlspecialchars($jeux_videos['nom_prenom'], ENT_QUOTES, 'UTF-8');
+                $id = htmlspecialchars($jeux_videos['id'], ENT_QUOTES, 'UTF-8');
                 ?>
                 <div class="jeux_videos">
                     <div class="partie_titre">
-                    <h1><?= $jeux_videos['titre'];?></h1>
+                    <h1><?= $titre;?></h1>
                     <label class="input_description" for="date_fin">Date estimé de fin de creation : </label>
-                    <p><?= $jeux_videos['date_fin'];?></p>
+                    <p><?= $date_fin;?></p>
                     <label class="input_description" for="budget">Budget : </label>
-                    <p><?= $jeux_videos['budget'];?></p>
+                    <p><?= $budget;?></p>
                     <label class="input_description" for="date_mise_a_jour">Date de mise a jour : </label>
-                    <p><?= $jeux_videos['date_mise_a_jour'];?></p>
-                    <p><?= $jeux_videos['nom_prenom'];?></p>
-                    <a href="../details/jeux_detail.php?id=<?= $jeux_videos['id']; ?>">
+                    <p><?= $date_mise_a_jour;?></p>
+                    <p><?= $nom_prenom;?></p>
+                    <a href="../details/jeux_detail.php?id=<?= $id; ?>">
                     <button class="retour">Voir les détails</button>
                     </a>
                 </div>
                     <div class="partie_button">
-                        <a href="../espace_producteurs/modifier_jeux_video_producteurs.php?id=<?= $jeux_videos['id']; ?>">
+                        <a href="../espace_producteurs/modifier_jeux_video_producteurs.php?id=<?= $id; ?>">
                             <button class="button_modif">modifier le jeux vidéo</button>
                         </a>
                     </div>

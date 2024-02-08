@@ -10,7 +10,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -19,7 +19,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                     <a href="../connexion_visiteurs/connexion.php">Mon espace</a>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
@@ -50,32 +50,32 @@
             // Démarrer la session sur chaque page où vous en avez besoin
             session_start();
 
-            // Récupération des données du formulaire
-            $titre = isset($_POST['titre']) ? trim($_POST['titre']) : '';
-            $nouveauBudget = isset($_POST['budget']) ? $_POST['budget'] : '';
-            $commentaire = isset($_POST['commentaire']) ? $_POST['commentaire'] : '';
+                // Récupération des données du formulaire
+                $titre = isset($_POST['titre']) ? trim($_POST['titre']) : '';
+                $nouveauBudget = isset($_POST['budget']) ? $_POST['budget'] : '';
+                $commentaire = isset($_POST['commentaire']) ? $_POST['commentaire'] : '';
 
 
-            // Obtenez l'ancien budget pour l'enregistrement dans l'historique
-            $requeteAncienBudget = "SELECT budget FROM jeux_videos WHERE LOWER(titre) = LOWER(?)";
-            $stmtAncienBudget = $bdd->prepare($requeteAncienBudget);
-            $stmtAncienBudget->execute([$titre]);
-            $ancienBudget = $stmtAncienBudget->fetchColumn();
+                // Obtenez l'ancien budget pour l'enregistrement dans l'historique
+                $requeteAncienBudget = "SELECT budget FROM jeux_videos WHERE LOWER(titre) = LOWER(?)";
+                $stmtAncienBudget = $bdd->prepare($requeteAncienBudget);
+                $stmtAncienBudget->execute([$titre]);
+                $ancienBudget = $stmtAncienBudget->fetchColumn();
 
 
-            // Requête SQL pour mettre à jour le budget
-            $requeteMiseAJour = "UPDATE jeux_videos SET budget = ?, commentaire = ? WHERE titre = ?";
-            $stmtMiseAJour = $bdd->prepare($requeteMiseAJour);
-            $stmtMiseAJour->execute([$nouveauBudget, $commentaire, $titre]);
+                // Requête SQL pour mettre à jour le budget
+                $requeteMiseAJour = "UPDATE jeux_videos SET budget = ?, commentaire = ? WHERE titre = ?";
+                $stmtMiseAJour = $bdd->prepare($requeteMiseAJour);
+                $stmtMiseAJour->execute([$nouveauBudget, $commentaire, $titre]);
 
-            $success = false; // Déclaration initiale de la variable $success
+                $success = false; // Déclaration initiale de la variable $success
 
-            $requeteHistorique = "INSERT INTO modification (id_jeux_videos, ancien_budget, nouveau_budget, commentaire)
-                                VALUES ((SELECT id FROM jeux_videos WHERE titre = ? LIMIT 1), ?, ?, ?)";
-            $stmtHistorique = $bdd->prepare($requeteHistorique);
+                $requeteHistorique = "INSERT INTO modification (id_jeux_videos, ancien_budget, nouveau_budget, commentaire)
+                                    VALUES ((SELECT id FROM jeux_videos WHERE titre = ? LIMIT 1), ?, ?, ?)";
+                $stmtHistorique = $bdd->prepare($requeteHistorique);
 
-            $success = $stmtHistorique->execute([$titre, $ancienBudget, $nouveauBudget, $commentaire]);
-
+                $success = $stmtHistorique->execute([$titre, $ancienBudget, $nouveauBudget, $commentaire]);
+            
             // Fermer la connexion
             $bdd = null;
         ?>
