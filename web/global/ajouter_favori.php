@@ -3,7 +3,8 @@
     include '../connexion_bdd/connexion_bdd.php';
     session_start();
 
-    if (isset($_POST['id_jeu'])) {
+    // Vérification de l'authenticité de l'utilisateur
+    if(isset($_SESSION['id']) && isset($_POST['id_jeu'])) {
         $idJeu = intval($_POST['id_jeu']);
         $utilisateur = $_SESSION['id'];
 
@@ -29,7 +30,6 @@
             $newFavorisCountQuery = $bdd->prepare("SELECT favoris_count FROM jeux_videos WHERE id = ?");
             $newFavorisCountQuery->execute([$idJeu]);
             $newFavorisCount = $newFavorisCountQuery->fetchColumn();
-
 
             echo json_encode(['status' => 'added', 'newNote' => $newNote, 'newFavorisCount' => $newFavorisCount]);
         } else {
@@ -57,6 +57,6 @@
             echo json_encode(['status' => 'removed', 'newNote' => $newNote, 'newFavorisCount' => $newFavorisCount]);
         }
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Identifiant du jeu non fourni.']);
+        echo json_encode(['status' => 'error', 'message' => 'Identifiant du jeu non fourni ou utilisateur non authentifié.']);
     }
 ?>

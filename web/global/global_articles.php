@@ -3,7 +3,6 @@
     include '../connexion_bdd/connexion_bdd.php';
     // Démarrer la session sur chaque page où vous en avez besoin
     session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +17,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -27,17 +26,17 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                <a href="../accueil/accueil.php">Accueil</a>
+                <a href="../../index.php">Accueil</a>
                 <?php
-                        if(isset($_SESSION['pseudo'])) {
-                            // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
-                            echo '<a href="../connexion_visiteurs/dashboard_visiteurs.php">Dashboard</a>';
-                            echo '<a href="../deconnexion/logout.php">Déconnexion</a>';
-                        } else {
-                            // L'utilisateur n'est pas connecté, affichez le lien de connexion
-                            echo '<a href="../connexion_visiteurs/connexion.php">Mon espace</a>';
-                        }
-                    ?>
+                    if(isset($_SESSION['pseudo'])) {
+                        // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
+                        echo '<a href="../connexion_visiteurs/dashboard_visiteurs.php">Dashboard</a>';
+                        echo '<a href="../deconnexion/logout.php">Déconnexion</a>';
+                    } else {
+                        // L'utilisateur n'est pas connecté, affichez le lien de connexion
+                        echo '<a href="../connexion_visiteurs/connexion.php">Mon espace</a>';
+                    }
+                ?>
                     <a href="../global/global_jeux.php">Tous les jeux vidéo</a>
                     <a href="../global/global_articles.php">Tous les articles</a>
                     <a href="../espace_admin/connexion_administrateurs.php">Espace administrateurs</a>
@@ -54,19 +53,20 @@
     <<article class="articles_en_details derniere_section">
             <?php
                 // On recupere toutes les infos dans la bdd articles
-                $recupArticles = $bdd->query('SELECT * FROM articles');
+                $recupArticles = $bdd->prepare('SELECT titre, contenu, auteur, date_mise_a_jour, chemin_image, id FROM articles');
+                $recupArticles->execute();
+
                 while($Articles = $recupArticles->fetch()){
                     ?>
                     <!--<div class="articles">-->
-                        <h1><?= $Articles['titre'];?></h1>
-                        <!--<p class="contenu"><?= $Articles['contenu'];?></p>-->
+                    <h1><?= htmlspecialchars($Articles['titre']);?></h1>
                         <div class="petite_infos">
-                            <p><?= $Articles['auteur'];?></p>
-                            <P><?= $Articles['date_mise_a_jour'];?></p>
+                            <p><?= htmlspecialchars($Articles['auteur']);?></p>
+                            <P><?= htmlspecialchars($Articles['date_mise_a_jour']);?></p>
                         <!-- Affichage de l'image -->
-                        <img src="../images/<?= $Articles['chemin_image']; ?>" alt="<?= $Articles['titre']; ?>">
+                        <img src="../images/<?= htmlspecialchars($Articles['chemin_image']); ?>" alt="<?= htmlspecialchars($Articles['titre']); ?>">
 
-                        <a href="../details/articles_details.php?id=<?= $Articles['id']; ?>" class="en_savoir_plus retour">En savoir plus</a>
+                        <a href="../details/articles_details.php?id=<?= htmlspecialchars($Articles['id']); ?>" class="en_savoir_plus retour">En savoir plus</a>
                     </div>
                     <br> <!--saut de ligne entre chaque jeux video -->
                     <?php
