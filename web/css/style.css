@@ -399,9 +399,16 @@ label
     font-size: 20px;
     margin-left: 4%;
     TEXT-ALIGN: justify;
+<<<<<<< HEAD
     
     line-height: 100%;
     
+=======
+    line-height: 13px;
+    letter-spacing: 0.5px;
+    line-height: 100%;
+    padding-right: 200px;
+>>>>>>> 8d67040c9d55f4a46f3cc4b96919c163584f97a6
 }
 .articles_en_details img
 {
@@ -877,4 +884,7 @@ label
     width: 200px;
     font-size: 15px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8d67040c9d55f4a46f3cc4b96919c163584f97a6
