@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*paramètre généraux */
 a
 {
@@ -888,3 +889,895 @@ label
 
 =======
 >>>>>>> 8d67040c9d55f4a46f3cc4b96919c163584f97a6
+=======
+/*paramètre généraux */
+a
+{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+ul li 
+{
+    list-style-type: none;
+}
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+html, body
+{
+    display: flex;
+    flex-direction: column;
+    background-image: url("image_de_fond-min.jpg");
+    background-size: cover;
+    margin:0;
+    padding:0;
+    height:100%
+}
+
+section, div, footer, nav
+{
+    display: flex;
+}
+section
+{
+    height: auto;
+}
+form
+{
+    display: flex;
+    flex-direction: column;
+}
+table, tr, td
+{
+    display: flex;
+    
+}
+tbody
+{
+    width: 100%;
+}
+/*1ere section */
+.haut_de_page
+{
+    justify-content: space-between;
+    height: 13%;
+    align-items: center;
+}
+
+.haut_de_page img
+{
+    padding: 10px;
+}
+.logo img
+{
+    width: 84px;
+    height: 81px;
+}
+
+
+.menu img
+{
+    width: 50px;
+    height: 50px;
+}
+
+.menu a
+{
+    font-family: "Inter";
+    color: #F9F1F1;
+}
+
+nav 
+{
+    width: 50%;
+    height: 100px;
+}
+
+nav .main_pages 
+{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    height: 220px;
+}
+
+nav .main_pages a 
+{
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background: #1d1919;
+}
+
+label, #toggle
+{
+display: none;
+}
+label 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 40px;
+    cursor: pointer;
+}
+#toggle:checked + .main_pages {
+    display: flex;
+}
+
+/*2e section */
+
+.description_de_la_page
+{
+    width: 100%;
+    justify-content: center;
+    text-align-last: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 13px;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+}
+.description_de_la_page_membre
+{
+    font-size: 20px;
+    width: 100%;
+    justify-content: center;
+    text-align-last: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    color: #FFFFFF;
+    height: 18%;
+    letter-spacing: 0.5px;
+    margin-top: 3%;
+}
+.description_de_la_page_articles
+{
+    font-size: 25px;
+    width: 100%;
+    justify-content: center;
+    text-align-last: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    color: #FFFFFF;
+    height: 10%;
+    letter-spacing: 0.5px;
+    margin-top: 3%;
+}
+.condition
+{
+    line-height: 25px;
+    width: 100%;
+    justify-content: center;
+    text-align-last: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    color: #FFFFFF;
+    height: 18%;
+    letter-spacing: 0.5px;
+}
+/*3e section */
+
+.articles
+{
+    flex-direction: column;
+    padding-left: 10px;
+    border-top: 5px solid #423737;
+    border-bottom: 5px solid #423737;
+    padding-bottom: 15px;
+    
+}
+.titre_articles
+{
+    height: 73px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    color: #ffffff;
+    text-decoration: underline #FFFFFF;
+}
+
+.titre_articles p
+{
+    width: 60%;
+}
+.titre_articles img
+{
+    width: 127px;
+    height: 88px;
+    margin-left: 2%;
+    box-sizing: border-box;
+    border: 1px solid #000000;
+    margin-top: 18px;
+
+}
+
+.auteur_article
+{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    color: #FFFBFB;
+    height: 60px;
+}
+
+
+.button_voir_plus button
+{
+    margin-left: 35%;
+    width: 200px;
+    font-size: 70%;
+    text-align: center;
+    padding: 3px 20px;
+    background: rgb(23, 101, 22);
+    border: 1px solid #000000;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.button_voir_plus button:active
+{
+    transform: scale(0.96);
+}
+.button_membre
+{
+    margin-left: 25%;
+}
+.button_favori
+{
+    HEIGHT: 30px;
+    background: rgb(0, 148, 7);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100px;
+}
+
+.button_deconnexion
+{
+    height: 30px;
+    font-size: 15px;
+    BACKGROUND: RED;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 150px;
+}
+.a_button_deco
+{
+    margin-left: 15%;
+}
+.incorrect
+{
+    margin-left: 40%;
+}
+.button_se_connecter
+{
+    font-size: 15px;
+    height: 40px;
+    background: rgb(23, 101, 22);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.affichage_compte
+{
+    flex-direction: column;
+    text-align: center;
+}
+.affichage_compte a
+{
+    margin-top: 3%;
+}
+.affichage_manager, .affichage_producteur
+{
+    color: #FFFFFF;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+.button_modif
+{
+    background: rgb(111, 89, 2);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.button_bannir
+{
+    background: rgb(118, 1, 1);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.gestion_comptes
+{
+    border-bottom: 2px solid white;
+    justify-content: center;
+}
+.gestion_comptes_div
+{
+    margin-bottom: 5%;
+}
+.gestion_comptes_div a
+{
+    margin-left: 1%;
+}
+.creation_jeux
+{
+    justify-content: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+.button_creer_jeux
+{
+    height: 30px;
+    background: rgb(0, 148, 7);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.afficher_jeux_videos
+{
+    flex-direction: column;
+}
+.jeux_videos
+{
+    color: white;
+    border-top: 2px solid white;
+    padding-top: 5%;
+}
+.partie_titre
+{
+    flex-direction: column;
+    margin-left: 2%;
+}
+.partie_titre p
+{
+    margin-left: 20%;
+}
+.partie_button
+{
+    margin-left: 9%;
+    margin-top: 5%;
+}
+.partie_button button
+{
+    margin-left: 8%;
+}
+.ul_favori
+{
+    margin-left: 20%;
+}
+.li_favori
+{
+    margin-bottom: 5%;
+}
+.li_favori a
+{
+    font-size: 25px;
+}
+.retirer_favori
+{
+    margin-left: 10%;
+}
+
+.articles_en_details
+{
+    color: white;
+}
+.articles_en_details h1
+{
+    font-size: 2.3em;
+    text-align: center;
+}
+.contenu
+{
+    font-size: 20px;
+    margin-left: 4%;
+    TEXT-ALIGN: justify;
+<<<<<<< HEAD
+    
+    line-height: 100%;
+    
+=======
+    line-height: 13px;
+    letter-spacing: 0.5px;
+    line-height: 100%;
+    padding-right: 200px;
+>>>>>>> 8d67040c9d55f4a46f3cc4b96919c163584f97a6
+}
+.articles_en_details img
+{
+    width: 200px;
+    margin-left: 4%;
+}
+.petite_infos
+{
+    margin-left: 4%;
+    justify-content: space-around;
+}
+.retour
+{
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+    background: yellowgreen;
+    margin-top: 10%;
+    font-size: 15px;
+    font-weight: bold;
+    height: 40px;
+}
+.jeux_videos_details
+{
+    color: white;
+    width: 100%;
+    border-top: 2px solid rgb(178, 154, 154);
+    padding-bottom: 400px;
+    padding-top: 3%;
+    margin-top: 2%;
+}
+.div
+{
+    justify-content: space-around;
+    margin-left: auto;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+.image-gallery
+{
+    flex-wrap: wrap;
+    margin-top: 15%;
+    margin-bottom: 6%;
+    margin-left: 4%;
+
+}
+.image_gallery img
+{
+    WIDTH: auto;
+    height: auto;
+}
+.div_favoris
+{
+    justify-content: center;
+    margin-left: auto;
+    font-size: 18px;
+    margin-top: 6%;
+}
+.div_favoris button
+{
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgb(207, 118, 3);
+    font-size: 15px;
+    font-weight: bold;
+    height: 40px;
+}
+.note
+{
+    width: 60px; /* Largeur du carré en pixels */
+    height: 45px; /* Hauteur du carré en pixels */
+    background-color: rgb(160, 11, 11);
+    font-weight: bold;
+}
+.div_retour
+{
+    justify-content: center;
+    margin-left: auto;
+    font-size: 18px;
+    margin-top: 6%;
+}
+.publier_jeux
+{
+    margin-left: 4%;
+    margin-right: 4%;
+    padding-bottom: 300px;
+}
+.publier_jeux_form input
+{
+    font-size: 18px;
+    margin-top: 3%;
+}
+.publier_jeux_form textarea
+{
+    height: 400px;
+    margin-top: 3%;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    line-height: 25px;
+}
+.publier_jeux_form select
+{
+    font-size: 18px;
+    margin-top: 3%;
+}
+
+.input_description
+{
+    font-size: 18px;
+    margin-left: 4%;
+    width: 100%;
+    margin-top: 3%;
+    text-decoration: underline;
+}
+.button_creation
+{
+    background: rgb(23, 101, 22);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 35px;
+}
+.files
+{
+    color: wheat;
+}
+.prod
+{
+    justify-content: space-around;
+}
+.export
+{
+    justify-content: space-around;
+    margin-bottom: 2%;
+}
+.button_modif_budget, .export_infos
+{
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 30px;
+}
+.button_modif_budget
+{
+    background: #6f5902;
+}
+.export_infos
+{
+    background-color: teal;
+}
+.search_jeux
+{
+    margin-left: 4%;
+    margin-right: 4%;
+    padding-bottom: 4%;
+}
+.premiere_partie
+{
+    justify-content: space-between;
+}
+.deuxieme_partie
+{
+    justify-content: space-around;
+}
+.troisieme_partie
+{
+    justify-content: space-between;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+.galerie-images
+{
+    margin-top: 5%;
+    margin-left: 4%;
+}
+.favoris_jeux_global
+{
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.priorite
+{
+    font-weight: bold;
+    font-size: 22px;
+}
+table
+{
+    border-top: 2px solid white;
+    padding: 2%;
+}
+.titre
+{
+    font-size: 30px;
+}
+.statut
+{
+    font-size: 15px;
+}
+.en_savoir_plus
+{
+    font-size: 15px;
+}
+.jeux_global
+{
+    color: white;
+}
+.article_oublie_mdp
+{
+    display: flex;
+    justify-content: center;
+}
+.email_mdp_oublie
+{
+    HEIGHT: 25px;
+    FONT-SIZE: 15px;
+}
+.button_oublie
+{
+    margin-top: 10%;
+    HEIGHT: 25PX;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.mdp_new
+{
+    margin-top: 10%;
+}
+.button_envoyez
+{
+    HEIGHT: 10%;
+    background: rgb(23, 101, 22);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 8%;
+}
+.derniere_section
+{
+    padding-bottom: 300px;
+}
+.deconnexion
+{
+    justify-content: center;
+}
+/*4e section*/
+
+.jeux
+{
+    flex-direction: column;
+    padding-left: 10px;
+    padding-bottom: 100px;
+}
+.titre_jeux
+{
+    height: 14%;
+    text-decoration: underline #FFFFFF;
+}
+.titre_jeux p
+{
+    width: 60%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    color: #F9F1F1;
+}
+
+.titre_jeux img
+{
+    width: 160px;
+    height: 100px;
+    margin-top: 5%;
+    margin-left: 2%;
+    box-sizing: border-box;
+    border: 1px solid #000000;
+}
+
+
+.description_jeux
+{
+    margin-left: 8%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FDF7F7;
+    padding-right: 50%;
+}
+
+.jeux button
+{
+    margin-top: 15%;
+}
+/*5e section*/
+footer
+{
+    position: fixed;
+    bottom:0;
+    width: 100%;
+    height: 20%;
+    background: #000000;
+    border: 2px solid #3D2F2F;
+}
+
+.mentions_obligatoire
+{
+flex-direction: column;
+margin-top: 6%;
+width: 200%;
+height: 60px;
+font-family: 'Inter';
+font-style: italic;
+font-weight: 400;
+font-size: 10px;
+color: #FDFAFA;
+justify-content: space-between;
+padding: 10px;
+}
+
+.logo_reseaux
+{
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    border-left: 2px solid #FFFFFF;
+}
+
+
+.logo_reseaux img
+{
+    height: 30px;
+}
+
+
+
+
+/* page connexion visiteur*/
+.connexion
+{
+    JUSTIFY-CONTENT: center;
+}
+.se_connecter
+{
+    font-size: 25px;
+}
+
+.login
+{
+    border-right: 3px solid #FEFEFE;
+    padding-right: 12%;
+}
+
+.login .user, .mdp
+{
+    margin-bottom: 15%;
+    height: 25px;
+}
+
+.button
+{
+    margin-left: 9%;
+    HEIGHT: 23%;
+    background: #176516;
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.inscription form
+{
+    width: 100%;
+    margin-left: 20%;
+
+}
+
+.inscription .mail, .mdp_inscription
+{
+    margin-bottom: 15%;
+    height: 25px;
+}
+
+.reinit
+{
+    margin-top: 15%;
+    height: 30px;
+}
+.button_reinit
+{
+    font-size: 15px;
+    BACKGROUND: RED;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.contacter
+{
+    font-size: 25px;
+}
+.formulaire_nous_contacter
+{
+    justify-content: center;
+}
+.adresse_mail form
+{
+    display: flex;
+    flex-direction: column;
+    width: 390px;
+}
+.adresse_mail .mail, .objet
+{
+    height: 30px;
+    margin-bottom: 2%;
+}
+.message
+{
+    height: 250px;
+}
+.adresse_mail .button
+{
+    margin-top: 5%;
+    margin-left: 20%;
+    height: 10%;
+    font-size: 15px;
+}
+
+label
+{
+    color: #FEFEFE;
+}
+
+
+/* page connexion administrateur, manager et producteur */
+
+.se_connecter_admin
+{
+    JUSTIFY-CONTENT: center;
+}
+.admin
+{
+    height: 15%;
+    margin-bottom: 15%;
+    font-size: 15px;
+}
+.login_admin
+{
+    justify-content: center;
+}
+.mdp_admin
+{
+    margin-right: 50%;
+    width: 200px;
+    font-size: 15px;
+    height: 15%;
+    margin-bottom: 15%;
+}
+.button_admin
+{
+    height: 20%;
+    width: 30%;
+    background: rgb(23, 101, 22);
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 200px;
+    font-size: 15px;
+}
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8d67040c9d55f4a46f3cc4b96919c163584f97a6
+>>>>>>> a02418468dad454e9d1471734a741ca2dc502094
