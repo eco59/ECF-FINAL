@@ -1,19 +1,30 @@
 <?php
-    //connexion bdd
-    include '../connexion_bdd/connexion_bdd.php';
-    // Démarrer la session sur chaque page où vous en avez besoin
+    // Inclusion du fichier de connexion à la base de données
+    include_once '../connexion_bdd/connexion_bdd.php';
+    // Démarrage de la session
     session_start();
-    // Récupérer l'ID du jeu vidéo depuis l'URL
-    $id_article = $_GET['id'];
 
-    // Récupérer les informations du jeu vidéo spécifique
-    $recupArticles = $bdd->prepare('SELECT * FROM articles WHERE id = ?');
-    $recupArticles->execute([$id_article]);
-    $Articles = $recupArticles->fetch();
+    // Vérification si l'identifiant de l'article est défini dans l'URL
+    if(isset($_GET['id'])) {
+        // Récupération de l'identifiant de l'article depuis l'URL
+        $id_article = htmlspecialchars($_GET['id']);
 
-    // Vérifier si le jeu vidéo existe
-    if(!$Articles) {
-        // Rediriger ou afficher un message d'erreur
+        // Préparation de la requête pour récupérer les informations de l'article spécifique
+        $recupArticles = $bdd->prepare('SELECT * FROM articles WHERE id = ?');
+        // Exécution de la requête en liant le paramètre
+        $recupArticles->execute([$id_article]);
+        // Récupération des données de l'article
+        $Articles = $recupArticles->fetch();
+        // Suppression des balises br qui s'affichent automatiquement
+        $Articles['contenu'] = str_replace('<br />', '', $Articles['contenu']);
+        // Vérification si l'article existe
+        if(!$Articles) {
+            // Redirection vers la page de liste des articles ou affichage d'un message d'erreur
+            header('Location: ../global/global_articles.php');
+            exit();
+        }
+    } else {
+        // Redirection vers la page de liste des articles si l'identifiant de l'article n'est pas défini dans l'URL
         header('Location: ../global/global_articles.php');
         exit();
     }
@@ -31,7 +42,7 @@
 <body>
     <section class="haut_de_page">
         <div class="logo">
-            <a href="../accueil/accueil.php">
+            <a href="../../index.php">
                 <img src="../asset/logo.png" alt="logo">
             </a>
         </div>
@@ -40,7 +51,7 @@
                 <label for="toggle"><img src="../asset/menu.png" alt="menu"></label>
                 <input type="checkbox" id="toggle">
                 <div class="main_pages">
-                    <a href="../accueil/accueil.php">Accueil</a>
+                    <a href="../../index.php">Accueil</a>
                     <?php
                         if(isset($_SESSION['pseudo'])) {
                             // L'utilisateur est connecté, affichez le lien du tableau de bord et le bouton de déconnexion
@@ -61,18 +72,16 @@
         </div>
     </section>
     <section class="description_de_la_page_articles">
-        <p>Toutes les infos geek en details !
+        <p>Toutes les infos geek en détails !
         </p>
     </section>
     <article class="articles_en_details derniere_section">
-        
-        <h1><?= $Articles['titre']; ?></h1>
-        <p class="contenu"><?= $Articles['contenu']; ?></p>
-        <!-- Affichage de l'image -->
-        <img src="../images/<?= $Articles['chemin_image']; ?>" alt="<?= $Articles['titre']; ?>">
+        <h1><?= htmlspecialchars($Articles['titre']); ?></h1>
+        <p class="contenu"><?= htmlspecialchars($Articles['contenu']); ?></p>
+        <img src="../images/<?= htmlspecialchars($Articles['chemin_image']); ?>" alt="<?= htmlspecialchars($Articles['titre']); ?>">
         <div class="petite_infos">
-            <p class="auteur">Ecrit par :  <?= $Articles['auteur'];?></p>
-            <p class="date_mise_a_jour"><?= $Articles['date_mise_a_jour'];?></p>
+            <p class="auteur">Ecrit par : <?= htmlspecialchars($Articles['auteur']); ?></p>
+            <p class="date_mise_a_jour"><?= htmlspecialchars($Articles['date_mise_a_jour']); ?></p>
         </div>
         <div class="div_retour">
             <a href="../global/global_articles.php">
