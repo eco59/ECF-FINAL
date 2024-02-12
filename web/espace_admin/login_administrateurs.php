@@ -24,7 +24,7 @@
             // Verify the password.
             if ($rep['id'] != false) {
                 //c'est ok
-                setcookie("email", $email, time() + 3600);
+                setcookie("email", $email, time() + 3600, "/", "", false, true);
                 // Utilisation d'une requête préparée pour mettre à jour le token
                 $requeteUpdateToken = $bdd->prepare("UPDATE administrateurs SET token = :token WHERE email = :email");
                 $requeteUpdateToken->execute(array("token" => $token, "email" => $email));
