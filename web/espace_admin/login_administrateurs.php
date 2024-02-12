@@ -29,7 +29,7 @@
                 $requeteUpdateToken = $bdd->prepare("UPDATE administrateurs SET token = :token WHERE email = :email");
                 $requeteUpdateToken->execute(array("token" => $token, "email" => $email));
 
-                setcookie("token", $token, time() + 3600);
+                setcookie("token", $token, time() + 3600, "/", "", false, true);
     
                     // On redirige vers la page..
                     header("Location: ../espace_admin/dashboard_admin.php");
