@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $requeteUpdateToken->execute(array("token" => $token, "email" => $email));
 
             // Stocker le jeton dans un cookie
-            setcookie("email", $email, time() + 3600);
+            setcookie("email", $email, time() + 3600, "/", "", false, true);
             setcookie("token", $token, time() + 3600);
 
             // Rediriger vers la page du manager
