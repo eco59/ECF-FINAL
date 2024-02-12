@@ -34,8 +34,8 @@
                 $requeteUpdateToken->execute(array("token" => $token, "email" => $email));
 
                 // Stocker le jeton dans un cookie
-                setcookie("email", $email, time() + 3600, "/", "", false, true);
-                setcookie("token", $token, time() + 3600, "/", "", false, true);
+                setcookie("email", $email, time() + 3600, "/", "", true, true);
+                setcookie("token", $token, time() + 3600, "/", "", true, true);
 
                 // Rediriger vers la page du manager
                 header("Location: ../espace_managers/dashboard_manager.php");
