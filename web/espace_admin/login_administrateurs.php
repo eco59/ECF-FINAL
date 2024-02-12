@@ -24,12 +24,12 @@
             // Verify the password.
             if ($rep['id'] != false) {
                 //c'est ok
-                setcookie("email", $email, time() + 3600, "/", "", false, true);
+                setcookie("email", $email, time() + 3600, "/", "", true, true);
                 // Utilisation d'une requête préparée pour mettre à jour le token
                 $requeteUpdateToken = $bdd->prepare("UPDATE administrateurs SET token = :token WHERE email = :email");
                 $requeteUpdateToken->execute(array("token" => $token, "email" => $email));
 
-                setcookie("token", $token, time() + 3600, "/", "", false, true);
+                setcookie("token", $token, time() + 3600, "/", "", true, true);
     
                     // On redirige vers la page..
                     header("Location: ../espace_admin/dashboard_admin.php");
