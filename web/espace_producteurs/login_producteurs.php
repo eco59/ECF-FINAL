@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Stocker le jeton dans un cookie
             setcookie("email", $email, time() + 3600, "/", "", false, true);
-            setcookie("token", $token, time() + 3600);
+            setcookie("token", $token, time() + 3600, "/", "", false, true);
 
             // Rediriger vers la page du manager
             header("Location: ../espace_producteurs/dashboard_product.php");
