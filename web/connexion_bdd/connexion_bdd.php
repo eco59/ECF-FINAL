@@ -12,6 +12,6 @@
         
         
         // Affichez un message générique à l'utilisateur
-        echo "Une erreur s'est produite. Veuillez réessayer plus tard.";
+        //echo "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
 ?>
