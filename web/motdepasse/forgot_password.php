@@ -1,58 +1,6 @@
 <?php
     //connexion bdd
     include '../connexion_bdd/connexion_bdd.php';
-
-    // Fonction pour valider une adresse e-mail
-    function valider_email($email) {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
-    }
-
-    // Fonction pour échapper les données
-    function echapper_donnees($donnees) {
-        return htmlspecialchars(trim($donnees), ENT_QUOTES, 'UTF-8');
-    }
-
-    // Vérifie si le formulaire a été soumis
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["envoi"])) {
-        // Vérifie si l'e-mail est défini et non vide
-        if (isset($_POST["email"]) && !empty($_POST["email"])) {
-            // Échapper les données du formulaire
-            $destinataire = echapper_donnees($_POST["email"]);
-
-            // Valider l'adresse e-mail
-            if (!valider_email($destinataire)) {
-                echo "Veuillez entrer une adresse e-mail valide.";
-                exit;
-            }
-
-            // Adresse e-mail du destinataire externe
-            $destinataire =  $_POST["email"]; // Remplacez par votre adresse e-mail externe
-
-            // Sujet de l'e-mail
-            $sujet = "Sujet de l'e-mail";
-
-            // Corps de l'e-mail
-            $message = "Bonjour, pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant : https://www.gamesoft.go.yj.fr/web/motdepasse/reinitialiser_mdp.php ; Bonne journée !";
-
-            // En-têtes de l'e-mail
-            $headers = "From: contact@gamesoft.go.yj.fr\r\n";
-            $headers .= "Reply-To: contact@gamesoft.go.yj.fr\r\n";
-            $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
-
-            // Envoi de l'e-mail
-            $envoi = mail($destinataire, $sujet, $message, $headers);
-
-            // Vérification si l'e-mail a été envoyé avec succès
-            if ($envoi) {
-                echo "L'e-mail a été envoyé avec succès.";
-            } else {
-                echo "Une erreur s'est produite lors de l'envoi de l'e-mail.";
-            }
-        } else {
-            echo "Veuillez entrer une adresse e-mail valide.";
-        }
-    }
-
 ?>
 
 <!DOCTYPE html>
@@ -107,6 +55,57 @@
             
         </form>
     </article>
+    <?php
+    // Fonction pour valider une adresse e-mail
+    function valider_email($email) {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    // Fonction pour échapper les données
+    function echapper_donnees($donnees) {
+        return htmlspecialchars(trim($donnees), ENT_QUOTES, 'UTF-8');
+    }
+
+    // Vérifie si le formulaire a été soumis
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["envoi"])) {
+        // Vérifie si l'e-mail est défini et non vide
+        if (isset($_POST["email"]) && !empty($_POST["email"])) {
+            // Échapper les données du formulaire
+            $destinataire = echapper_donnees($_POST["email"]);
+
+            // Valider l'adresse e-mail
+            if (!valider_email($destinataire)) {
+                echo "Veuillez entrer une adresse e-mail valide.";
+                exit;
+            }
+
+            // Adresse e-mail du destinataire externe
+            $destinataire =  $_POST["email"]; // Remplacez par votre adresse e-mail externe
+
+            // Sujet de l'e-mail
+            $sujet = "Sujet de l'e-mail";
+
+            // Corps de l'e-mail
+            $message = "Bonjour, pour réinitialiser votre mot de passe, merci de cliquer sur le lien suivant : https://www.gamesoft.go.yj.fr/web/motdepasse/reinitialiser_mdp.php ; Bonne journée !";
+
+            // En-têtes de l'e-mail
+            $headers = "From: contact@gamesoft.go.yj.fr\r\n";
+            $headers .= "Reply-To: contact@gamesoft.go.yj.fr\r\n";
+            $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+            // Envoi de l'e-mail
+            $envoi = mail($destinataire, $sujet, $message, $headers);
+
+            // Vérification si l'e-mail a été envoyé avec succès
+            if ($envoi) {
+                echo '<div class="condition">L\'e-mail a été envoyé avec succès.</div>';
+            } else {
+                echo '<div class="condition">Une erreur s\'est produite lors de l\'envoi de l\'e-mail.</div>';
+            }
+        } else {
+            echo '<div class="condition">Veuillez entrer une adresse e-mail valide.</div>';
+        }
+    }
     <footer>
     <div class="mentions_obligatoire">
             <a href="../page_obligatoire/nous_contacter.php">NOUS CONTACTER</a>
