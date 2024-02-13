@@ -883,7 +883,14 @@ label
     width: 200px;
     font-size: 15px;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 8d67040c9d55f4a46f3cc4b96919c163584f97a6
+.affichageV2
+{
+    width: 100%;
+    justify-content: center;
+    text-align-last: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    color: #FFFFFF;
+}
