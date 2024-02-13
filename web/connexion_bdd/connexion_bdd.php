@@ -1,7 +1,7 @@
 <?php
     $serveur = "localhost";
     $utilisateur = "wjwwpnuy_eliecohe";
-    $motdepasse = "";
+    $motdepasse = "Cig@rettes1267+";
     $base_de_donnees = "wjwwpnuy_utilisateurs";
     
 
