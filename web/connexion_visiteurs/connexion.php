@@ -70,7 +70,7 @@
         </form>
         </div>
     </section>
-    <section class="connexion">
+    <section class="connexion derniere_section">
         <div class="reinit">
             <a href="../motdepasse/forgot_password.php"><button class="button_reinit">Mot de passe oublié ?</button></a>
     </div>
