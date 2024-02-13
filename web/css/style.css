@@ -883,3 +883,14 @@ label
     width: 200px;
     font-size: 15px;
 }
+.affichageV2
+{
+    width: 100%;
+    justify-content: center;
+    text-align-last: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    color: #FFFFFF;
+}
