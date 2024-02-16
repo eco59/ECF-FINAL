@@ -52,8 +52,6 @@ Un ordinateur avec Windows
 
 Un IDE 
 
-Node.js et npm d'installer (https://nodejs.org/)
-
 Bibliothèque a installer : Phpspreadsheet
 
 XAMPP control pannel pour sa base de donnée
@@ -64,12 +62,6 @@ XAMPP control pannel pour sa base de donnée
 
 ```bash
 git clone https://github.com/eco59/ECF-FINAL.git
-
-
-Installer les dépendances :
-
-cd ecf-final
-npm install
 
 
 Créez un fichier .env à la racine du projet et configurez les variables suivantes :
@@ -299,11 +291,6 @@ ALTER TABLE `modification`
 COMMIT;
 
 
-```
-## Deployment
-
-```bash
-  npm run deploy
 ```
 
 
